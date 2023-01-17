@@ -1,0 +1,58 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 103vw;
+  background-color: #0f0e9f;
+  color: white;
+  text-align: center;
+  padding-top: 30px;
+}
+
+.row-footer {
+  justify-content: center;
+}
+
+.logo-footer {
+  height: 45px;
+  width: 118px;
+}
+
+.call-footer {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.number-footer {
+  color: #e9483f;
+  font-size: 30px;
+}
+
+.topic-footer {
+  margin: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.address-footer {
+  margin: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.media-footer {
+  font-size: 30px;
+}
+
+a,
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.download-footer {
+  width: 96px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
