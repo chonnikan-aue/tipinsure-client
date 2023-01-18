@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "../Login/Login.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Modal, Form, FloatingLabel, Button } from "react-bootstrap";
 
-const Login = (props) => {
+const Register = (props) => {
   const [data, setData] = useState({});
 
   const handleChange = (e) => {
@@ -17,29 +17,32 @@ const Login = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .get(`${process.env.REACT_APP_API}/auth`, { params: data })
+      .post(`${process.env.REACT_APP_API}/auth`, data)
       .then((res) => {
-        let token = res.data;
-        localStorage.setItem("jwt", token);
-        props.handleShowLogin()
-        Swal.fire({
-          icon: "success",
-          title: "Succeed!",
-          text: "You logged in.",
-        });
+        if (res.data.name === "SequelizeUniqueConstraintError") {
+          Swal.fire({
+            icon: "error",
+            title: "Please try another",
+            text: "This username is already taken.",
+          });
+        } else {
+          let token = res.data;
+          localStorage.setItem("jwt", token);
+          props.handleShowRegister()
+          Swal.fire({
+            icon: "success",
+            title: "Succeed!",
+            text: "You logged in.",
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
-          icon: "error",
-          title: "Please try again",
-          text: "Username or Password is incorrect.",
-        });
       });
   };
 
   return (
-    <Modal show={props.showLogin} onHide={props.handleShowLogin}>
+    <Modal show={props.showRegister} onHide={props.handleShowRegister}>
       <Modal.Header closeButton>
         <Modal.Title>
           <img src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg" />
@@ -65,8 +68,16 @@ const Login = (props) => {
               required
             />
           </FloatingLabel>
+          <FloatingLabel label="Referal Code (if any)" className="mb-3">
+            <Form.Control
+              name="referalCode"
+              type="text"
+              placeholder="Referal Code (if any)"
+              onChange={handleChange}
+            />
+          </FloatingLabel>
           <Button className="login-button" type="submit">
-            Login
+            Register
           </Button>
         </Form>
       </Modal.Body>
@@ -74,4 +85,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default Register;

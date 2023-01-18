@@ -3,6 +3,7 @@ import "./Header.css";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Login from "../Login/Login";
+import Register from "../Register/Register";
 
 const Header = (props) => {
   const [showLogin, setShowLogin] = useState(false);
@@ -56,7 +57,10 @@ const Header = (props) => {
             </>
           ) : (
             <>
-              <Nav.Item onClick={handleShowLogin} className="normal-link bottom-link">
+              <Nav.Item
+                onClick={handleShowLogin}
+                className="normal-link bottom-link"
+              >
                 Login
               </Nav.Item>
               <Nav.Item onClick={handleShowRegister} className="button-link">
@@ -69,6 +73,10 @@ const Header = (props) => {
       </Navbar>
 
       <Login handleShowLogin={handleShowLogin} showLogin={showLogin} />
+      <Register
+        handleShowRegister={handleShowRegister}
+        showRegister={showRegister}
+      />
     </>
   );
 };
