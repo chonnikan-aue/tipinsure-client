@@ -21,6 +21,7 @@ const Login = (props) => {
       .then((res) => {
         let token = res.data;
         localStorage.setItem("jwt", token);
+        props.setLoginData(data)
         props.handleShowLogin()
         Swal.fire({
           icon: "success",

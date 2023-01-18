@@ -15,6 +15,8 @@ const Header = (props) => {
 
   const logout = () => {
     props.setUserData();
+    props.setLoginData();
+    localStorage.removeItem("jwt");
   };
 
   return (
@@ -72,10 +74,15 @@ const Header = (props) => {
         </Nav>
       </Navbar>
 
-      <Login handleShowLogin={handleShowLogin} showLogin={showLogin} />
+      <Login
+        handleShowLogin={handleShowLogin}
+        showLogin={showLogin}
+        setLoginData={props.setLoginData}
+      />
       <Register
         handleShowRegister={handleShowRegister}
         showRegister={showRegister}
+        setLoginData={props.setLoginData}
       />
     </>
   );

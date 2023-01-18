@@ -28,7 +28,8 @@ const Register = (props) => {
         } else {
           let token = res.data;
           localStorage.setItem("jwt", token);
-          props.handleShowRegister()
+          props.setLoginData(data);
+          props.handleShowRegister();
           Swal.fire({
             icon: "success",
             title: "Succeed!",
