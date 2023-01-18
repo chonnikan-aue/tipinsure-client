@@ -14,3 +14,21 @@ body {
   text-align: center;
   font-family: "Sarabun", sans-serif;
 }
+
+.content {
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 12px 20px 0 rgb(13 12 138 / 7%);
+  margin-top: 30px;
+  margin-bottom: 30px !important;
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+  padding-top: 50px !important;
+  padding-bottom: 50px !important;
+}
+
+.container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

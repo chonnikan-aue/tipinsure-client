@@ -7,16 +7,12 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
 function App() {
-  const [userData, setUserData] = useState({ username: "user" });
+  const [userData, setUserData] = useState({username: "Mai"});
   return (
     <div className="App">
       <Header userData={userData} setUserData={setUserData} />
       {/* <Routes>
-        <Route
-          path="/"
-          element={ 
-          }
-        />
+        <Route path="/login" element={<Login />} />
       </Routes> */}
       <Footer />
     </div>

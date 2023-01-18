@@ -1,0 +1,11 @@
+.modal-header {
+  background-color: #0f0e9f;
+}
+
+.login-button {
+  background-color: #0f0e9f;
+  width: 100%;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

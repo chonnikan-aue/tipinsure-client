@@ -1,7 +1,6 @@
 import React from "react";
 import "./Footer.css";
-import { Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
 import { ImFacebook2, ImTwitter, ImYoutube } from "react-icons/im";
 
 const Footer = (props) => {
