@@ -5,10 +5,12 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import InsurancesTable from "./components/InsurancesTable/InsurancesTable";
 
 function App() {
   const [userData, setUserData] = useState();
   const [loginData, setLoginData] = useState();
+  const [insurances, setInsurances] = useState();
 
   const getUserData = () => {
     if (loginData) {
@@ -30,6 +32,18 @@ function App() {
     }
   };
 
+  const getInsurances = (age) => {
+    axios
+      .get(`${process.env.REACT_APP_API}/insurance/${age}`)
+      .then((res) => {
+        console.log(res.data);
+        setInsurances(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getUserData();
   }, [loginData]);
@@ -41,9 +55,17 @@ function App() {
         setUserData={setUserData}
         setLoginData={setLoginData}
       />
-      {/* <Routes>
-        <Route path="/login" element={<Login />} />
-      </Routes> */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <InsurancesTable
+              getInsurances={getInsurances}
+              insurances={insurances}
+            />
+          }
+        />
+      </Routes>
       <Footer />
     </div>
   );

@@ -1,0 +1,39 @@
+h2 {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 700;
+  color: #040c37;
+}
+
+.insurance-table {
+  box-shadow: 0 12px 20px 0 rgb(13 12 138 / 7%);
+  overflow: auto;
+}
+
+th,
+td {
+  text-align: left;
+  color: #040c37;
+}
+
+.insurance-name {
+  font-family: "Montserrat Alternates", sans-serif;
+  color: #040c37;
+}
+
+.buy-button,
+.buy-button:hover {
+  display: block;
+  background-color: #c3b5ff;
+  border-radius: 6px;
+  border: none;
+  color: #040c37;
+  text-align: center;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.alert-primary {
+  --bs-alert-color: #040c37;
+  --bs-alert-bg: #c3b5ff;
+  --bs-alert-border-color: #a395e4;
+}
