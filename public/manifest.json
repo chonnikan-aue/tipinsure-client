@@ -4,18 +4,8 @@
   "icons": [
     {
       "src": "https://www.tipinsure.com/new_design_5/assets/img/favicon.png",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "16x16 24x24 32x32 64x64",
       "type": "image/png"
-    },
-    {
-      "src": "https://www.tipinsure.com/new_design_5/assets/img/favicon.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "https://www.tipinsure.com/new_design_5/assets/img/favicon.png",
-      "type": "image/png",
-      "sizes": "512x512"
     }
   ],
   "start_url": ".",
