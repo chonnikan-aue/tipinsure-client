@@ -1,11 +1,14 @@
 .footer {
   position: relative;
   bottom: 0;
-  width: 100vw;
   background-color: #0f0e9f;
   color: white;
   text-align: center;
   padding-top: 30px;
+}
+
+.footer.row {
+  margin-right: 0;
 }
 
 .row-footer {
