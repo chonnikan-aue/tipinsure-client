@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./InsurancesTable.css";
 import { Container, FloatingLabel, Form, Table, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const InsurancesTable = (props) => {
+  const navigate = useNavigate();
   const input = useRef();
   const [data, setData] = useState();
   const [age, setAge] = useState();
@@ -58,6 +59,16 @@ const InsurancesTable = (props) => {
     return div;
   };
 
+  const setBuyData = (insuranceId, covidProtect, premium, yearOfBirth) => {
+    props.setBuyData({
+      insuranceId: insuranceId,
+      covidProtect: covidProtect,
+      premium: premium,
+      yearOfBirth: yearOfBirth,
+    });
+    navigate("/buy");
+  };
+
   useEffect(() => {
     input.current.focus();
   }, []);
@@ -108,12 +119,20 @@ const InsurancesTable = (props) => {
           return (
             <th key={index} className="insurance-price">
               ฿{insurance.premium.toLocaleString("en-US")}
-              <Link
-                to={`/buy/${insurance.insuranceId}/covid/${insurance.premium}/${data.year}`}
+              <button
+                type="button"
                 className="buy-button"
+                onClick={() => {
+                  setBuyData(
+                    insurance.insuranceId,
+                    true,
+                    insurance.premium,
+                    data.year
+                  );
+                }}
               >
                 Buy
-              </Link>
+              </button>
             </th>
           );
         }
@@ -123,12 +142,20 @@ const InsurancesTable = (props) => {
         return (
           <th key={index} className="insurance-price">
             ฿{insurance.nonCovidPremium.toLocaleString("en-US")}
-            <Link
-              to={`/buy/${insurance.insuranceId}/noncovid/${insurance.nonCovidPremium}/${data.year}`}
+            <button
+              type="button"
               className="buy-button"
+              onClick={() => {
+                setBuyData(
+                  insurance.insuranceId,
+                  false,
+                  insurance.nonCovidPremium,
+                  data.year
+                );
+              }}
             >
               Buy
-            </Link>
+            </button>
           </th>
         );
       });

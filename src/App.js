@@ -6,11 +6,13 @@ import axios from "axios";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import InsurancesTable from "./components/InsurancesTable/InsurancesTable";
+import BuyInsurance from "./components/BuyInsurance.js/BuyInsurance";
 
 function App() {
   const [userData, setUserData] = useState();
   const [loginData, setLoginData] = useState();
   const [insurances, setInsurances] = useState();
+  const [buyData, setBuyData] = useState();
 
   const getUserData = () => {
     if (loginData) {
@@ -34,7 +36,7 @@ function App() {
 
   const getInsurances = (age) => {
     axios
-      .get(`${process.env.REACT_APP_API}/insurance/${age}`)
+      .get(`${process.env.REACT_APP_API}/insurance/age/${age}`)
       .then((res) => {
         console.log(res.data);
         setInsurances(res.data);
@@ -62,9 +64,11 @@ function App() {
             <InsurancesTable
               getInsurances={getInsurances}
               insurances={insurances}
+              setBuyData={setBuyData}
             />
           }
         />
+        <Route path="/buy" element={<BuyInsurance buyData={buyData} />} />
       </Routes>
       <Footer />
     </div>

@@ -1,0 +1,37 @@
+.info-header {
+  color: #2847e0;
+  text-align: left;
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.buy-container {
+  padding-top: 30px !important;
+  padding-bottom: 20px !important;
+  margin-bottom: 10px !important;
+  text-align: left;
+}
+
+.submit-button {
+  background-color: #2847e0;
+  border-color: #2847e0;
+  box-shadow: 0 7px 13px 0 rgb(36 63 199 / 25%);
+  color: white;
+  padding: 12px 40px;
+  border-radius: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.submit-button:hover {
+  background-color: #2847e0;
+  border-color: #2847e0;
+  box-shadow: none;
+}
+
+.buy-warning {
+  color: #d13135;
+  text-align: center;
+}
