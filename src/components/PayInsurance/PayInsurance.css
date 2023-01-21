@@ -1,0 +1,9 @@
+.qr-code {
+  position: relative;
+  width: 100%;
+}
+
+.pay-button {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}

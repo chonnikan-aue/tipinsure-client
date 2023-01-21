@@ -4,8 +4,10 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Container, FloatingLabel, Form, Button } from "react-bootstrap";
 import PayInsurance from "../PayInsurance/PayInsurance";
+import { useNavigate } from "react-router-dom";
 
 const BuyInsurance = (props) => {
+  const navigate = useNavigate();
   const beneficiaryRelationshipName = useRef();
   const beneficiaryTitle = useRef();
   const beneficiaryFirstName = useRef();
@@ -14,35 +16,176 @@ const BuyInsurance = (props) => {
   const healthQuestion2 = useRef();
   const healthQuestion3 = useRef();
   const taxpayerNumber = useRef();
+  const deliveryAddressHouseNumber = useRef();
+  const deliveryAddressVillageNumber = useRef();
+  const deliveryAddressSubDistrict = useRef();
+  const deliveryAddressDistrict = useRef();
+  const deliveryAddressProvince = useRef();
+  const deliveryAddressZipCode = useRef();
+  const expiredDate = useRef();
   const [insuranceDiv, setInsuranceDiv] = useState();
   const [insurance, setInsurance] = useState();
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    userId: null,
+    policyNumber: "TIP" + Math.floor(Math.random() * 9999999999),
+    startDate: `${new Date().getFullYear()}-${
+      new Date().getMonth() + 1 < 10 ? "0" : ""
+    }${new Date().getMonth() + 1}-${new Date().getDate() + 1 < 10 ? "0" : ""}${
+      new Date().getDate() + 1
+    }`,
+    expiredDate: `${new Date().getFullYear() + 1}-${
+      new Date().getMonth() + 1 < 10 ? "0" : ""
+    }${new Date().getMonth() + 1}-${
+      new Date().getDate() < 10 ? "0" : ""
+    }${new Date().getDate()}`,
+  });
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(!show);
 
   const handleChange = (e) => {
-    setData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === "startDate") {
+      let startDateInput = e.target.value.split("-");
+      startDateInput[0] = parseInt(startDateInput[0]) + 1;
+      if (parseInt(startDateInput[2]) - 1 < 10) {
+        startDateInput[2] = "0" + (parseInt(startDateInput[2]) - 1);
+      } else {
+        startDateInput[2] = parseInt(startDateInput[2]) - 1;
+      }
+      let expiredDateInput = startDateInput.join("-");
+      setData((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+        expiredDate: expiredDateInput,
+      }));
+      expiredDate.current.value = expiredDateInput;
+    } else {
+      setData((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
+  };
+
+  const handlePay = () => {
+    if (
+      data.deliveryAddressHouseNumber &&
+      data.deliveryAddressVillageNumber &&
+      data.deliveryAddressSubDistrict &&
+      data.deliveryAddressDistrict &&
+      data.deliveryAddressProvince &&
+      data.deliveryAddressZipCode
+    ) {
+      axios
+        .post(`${process.env.REACT_APP_API}/insured`, data)
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "Buy Succeesfully!",
+            html: "Thank you for buying. <br /> Policy will be delivered within 7-14 business days.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/");
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .post(`${process.env.REACT_APP_API}/insured`, {
+          title: data.title,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          idCardOrPassportNumber: data.idCardOrPassportNumber,
+          dateOfBirth: data.dateOfBirth,
+          tel: data.tel,
+          email: data.email,
+          addressHouseNumber: data.addressHouseNumber,
+          addressVillageNumber: data.addressVillageNumber,
+          addressSubDistrict: data.addressSubDistrict,
+          addressDistrict: data.addressDistrict,
+          addressProvince: data.addressProvince,
+          addressZipCode: data.addressZipCode,
+          beneficiaryRelationshipName: data.beneficiaryRelationshipName,
+          beneficiaryTitle: data.beneficiaryTitle,
+          beneficiaryFirstName: data.beneficiaryFirstName,
+          beneficiaryLastName: data.beneficiaryLastName,
+          healthQuestion1: data.healthQuestion1,
+          healthQuestion2: data.healthQuestion2,
+          healthQuestion3: data.healthQuestion3,
+          taxpayerNumber: data.taxpayerNumber,
+          deliveryAddressHouseNumber: data.addressHouseNumber,
+          deliveryAddressVillageNumber: data.addressVillageNumber,
+          deliveryAddressSubDistrict: data.addressSubDistrict,
+          deliveryAddressDistrict: data.addressDistrict,
+          deliveryAddressProvince: data.addressProvince,
+          deliveryAddressZipCode: data.addressZipCode,
+          insuranceId: data.insuranceId,
+          userId: data.userId,
+          policyNumber: data.policyNumber,
+          premium: data.premium,
+          covidProtect: data.covidProtect,
+          startDate: data.startDate,
+          expiredDate: data.expiredDate,
+        })
+        .then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "Buy Succeesfully!",
+            html: "Thank you for buying. <br /> Policy will be delivered within 7-14 business days.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/");
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleShow();
-    axios
-      .post(`${process.env.REACT_APP_API}/insured`, data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const handleRadioBtn = (e) => {
-    if (e.target.id === "beneficiary1") {
+    if (e.target.id === "deliveryAddress1") {
+      deliveryAddressHouseNumber.current.classList.add("d-none");
+      deliveryAddressHouseNumber.current.firstElementChild.required = false;
+      deliveryAddressHouseNumber.current.firstElementChild.value = "";
+      deliveryAddressVillageNumber.current.classList.add("d-none");
+      deliveryAddressVillageNumber.current.firstElementChild.required = false;
+      deliveryAddressVillageNumber.current.firstElementChild.value = "";
+      deliveryAddressSubDistrict.current.classList.add("d-none");
+      deliveryAddressSubDistrict.current.firstElementChild.required = false;
+      deliveryAddressSubDistrict.current.firstElementChild.value = "";
+      deliveryAddressDistrict.current.classList.add("d-none");
+      deliveryAddressDistrict.current.firstElementChild.required = false;
+      deliveryAddressDistrict.current.firstElementChild.value = "";
+      deliveryAddressProvince.current.classList.add("d-none");
+      deliveryAddressProvince.current.firstElementChild.required = false;
+      deliveryAddressProvince.current.firstElementChild.value = "";
+      deliveryAddressZipCode.current.classList.add("d-none");
+      deliveryAddressZipCode.current.firstElementChild.required = false;
+      deliveryAddressZipCode.current.firstElementChild.value = "";
+    } else if (e.target.id === "deliveryAddress2") {
+      deliveryAddressHouseNumber.current.classList.remove("d-none");
+      deliveryAddressHouseNumber.current.firstElementChild.required = true;
+      deliveryAddressVillageNumber.current.classList.remove("d-none");
+      deliveryAddressVillageNumber.current.firstElementChild.required = true;
+      deliveryAddressSubDistrict.current.classList.remove("d-none");
+      deliveryAddressSubDistrict.current.firstElementChild.required = true;
+      deliveryAddressDistrict.current.classList.remove("d-none");
+      deliveryAddressDistrict.current.firstElementChild.required = true;
+      deliveryAddressProvince.current.classList.remove("d-none");
+      deliveryAddressProvince.current.firstElementChild.required = true;
+      deliveryAddressZipCode.current.classList.remove("d-none");
+      deliveryAddressZipCode.current.firstElementChild.required = true;
+    } else if (e.target.id === "beneficiary1") {
       setData((prevState) => ({
         ...prevState,
         beneficiaryRelationshipName: "Statutory Heir",
@@ -120,12 +263,17 @@ const BuyInsurance = (props) => {
 
   useEffect(() => {
     if (props.buyData) {
+      setData((prevState) => ({
+        ...prevState,
+        insuranceId: props.buyData.insuranceId,
+        covidProtect: props.buyData.covidProtect,
+        premium: props.buyData.premium,
+      }));
       axios
         .get(
           `${process.env.REACT_APP_API}/insurance/${props.buyData.insuranceId}`
         )
         .then((res) => {
-          console.log(res.data);
           setInsurance(res.data);
         })
         .catch((err) => {
@@ -139,33 +287,33 @@ const BuyInsurance = (props) => {
       setInsuranceDiv(
         <>
           <ul>
-            <li>Package: {insurance.name}</li>
-            <li>Price: {props.buyData.premium.toLocaleString("en-US")}</li>
-            {props.buyData.covidProtect ? (
-              <li>Covid Protection: Included</li>
-            ) : (
-              <li>Covid Protection: Not Included</li>
-            )}
+            <li>Package Name: {insurance.name}</li>
+            <li>Price: {props.buyData.premium.toLocaleString("en-US")} THB</li>
             <li>Details:</li>
             <ol>
+              {props.buyData.covidProtect ? (
+                <li>Covid Protection: Included</li>
+              ) : (
+                <li>Covid Protection: Not Included</li>
+              )}
               <li>In-patient (IPD) medical expenses per year</li>
               <ul>
                 {insurance.maxMedExpensePerYear && (
                   <li>
                     Maximum expenses per year:{" "}
-                    {insurance.maxMedExpensePerYear.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerYear.toLocaleString("en-US")} THB
                   </li>
                 )}
                 {insurance.maxMedExpensePerTime && (
                   <li>
                     Normal patient room expense:{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 )}
                 {insurance.normalPatientRoomExpense === 0 ? (
                   <li>
                     Normal patient room expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.normalPatientRoomExpense && (
@@ -173,14 +321,15 @@ const BuyInsurance = (props) => {
                       Normal patient room expense:{" "}
                       {insurance.normalPatientRoomExpense.toLocaleString(
                         "en-US"
-                      )}
+                      )}{" "}
+                      THB
                     </li>
                   )
                 )}
                 {insurance.icuCcuPatientRoomExpense === 0 ? (
                   <li>
                     ICU/ICC patient room expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.icuCcuPatientRoomExpense && (
@@ -188,79 +337,81 @@ const BuyInsurance = (props) => {
                       ICU/ICC patient room expense:{" "}
                       {insurance.icuCcuPatientRoomExpense.toLocaleString(
                         "en-US"
-                      )}
+                      )}{" "}
+                      THB
                     </li>
                   )
                 )}
                 {insurance.genMedExpense === 0 ? (
                   <li>
                     General medical expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.genMedExpense && (
                     <li>
                       General medical expense:{" "}
-                      {insurance.genMedExpense.toLocaleString("en-US")}
+                      {insurance.genMedExpense.toLocaleString("en-US")} THB
                     </li>
                   )
                 )}
                 {insurance.emergencyMedExpense === 0 ? (
                   <li>
                     Emergency medical expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.emergencyMedExpense && (
                     <li>
                       Emergency medical expense:{" "}
-                      {insurance.emergencyMedExpense.toLocaleString("en-US")}
+                      {insurance.emergencyMedExpense.toLocaleString("en-US")}{" "}
+                      THB
                     </li>
                   )
                 )}
                 {insurance.crfExpense === 0 ? (
                   <li>
                     Chronic renal failure (CRF) expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.crfExpense && (
                     <li>
                       Chronic renal failure (CRF) expense:{" "}
-                      {insurance.crfExpense.toLocaleString("en-US")}
+                      {insurance.crfExpense.toLocaleString("en-US")} THB
                     </li>
                   )
                 )}
                 {insurance.cancerExpense === 0 ? (
                   <li>
                     Cancer expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.cancerExpense && (
                     <li>
                       Cancer expense:{" "}
-                      {insurance.cancerExpense.toLocaleString("en-US")}
+                      {insurance.cancerExpense.toLocaleString("en-US")} THB
                     </li>
                   )
                 )}
                 {insurance.ambulanceExpense === 0 ? (
                   <li>
                     Ambulance expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.ambulanceExpense && (
                     <li>
                       Ambulance expense:{" "}
-                      {insurance.ambulanceExpense.toLocaleString("en-US")}
+                      {insurance.ambulanceExpense.toLocaleString("en-US")} THB
                     </li>
                   )
                 )}
                 {insurance.normalPatientIncomeCompensateExpense === 0 ? (
                   <li>
                     Normal patient income compensate: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.normalPatientIncomeCompensateExpense && (
@@ -268,14 +419,15 @@ const BuyInsurance = (props) => {
                       Normal patient income compensate:{" "}
                       {insurance.normalPatientIncomeCompensateExpense.toLocaleString(
                         "en-US"
-                      )}
+                      )}{" "}
+                      THB
                     </li>
                   )
                 )}
                 {insurance.icuCcuPatientIncomeCompensateExpense === 0 ? (
                   <li>
                     ICU/ICC patient income compensate: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.icuCcuPatientIncomeCompensateExpense && (
@@ -283,14 +435,15 @@ const BuyInsurance = (props) => {
                       ICU/ICC patient income compensate:{" "}
                       {insurance.icuCcuPatientIncomeCompensateExpense.toLocaleString(
                         "en-US"
-                      )}
+                      )}{" "}
+                      THB
                     </li>
                   )
                 )}
                 {insurance.surgicalTreatmentExpense === 0 ? (
                   <li>
                     Surgical treatment expense: Actual pay, not exceed{" "}
-                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                    {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                   </li>
                 ) : (
                   insurance.surgicalTreatmentExpense && (
@@ -298,7 +451,8 @@ const BuyInsurance = (props) => {
                       Surgical treatment expense:{" "}
                       {insurance.surgicalTreatmentExpense.toLocaleString(
                         "en-US"
-                      )}
+                      )}{" "}
+                      THB
                     </li>
                   )
                 )}
@@ -306,13 +460,13 @@ const BuyInsurance = (props) => {
               {insurance.opdExpense === 0 ? (
                 <li>
                   Out-patient (OPD) medical expense: Actual pay, not exceed{" "}
-                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                 </li>
               ) : (
                 insurance.opdExpense && (
                   <li>
                     Out-patient (OPD) medical expense:{" "}
-                    {insurance.opdExpense.toLocaleString("en-US")}
+                    {insurance.opdExpense.toLocaleString("en-US")} THB
                   </li>
                 )
               )}
@@ -320,7 +474,7 @@ const BuyInsurance = (props) => {
                 <li>
                   Death or permanent disability compensate: Actual pay, not
                   exceed{" "}
-                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                 </li>
               ) : (
                 insurance.deathOrPermanentDisabilityExpense && (
@@ -328,14 +482,15 @@ const BuyInsurance = (props) => {
                     Death or permanent disability compensate:{" "}
                     {insurance.deathOrPermanentDisabilityExpense.toLocaleString(
                       "en-US"
-                    )}
+                    )}{" "}
+                    THB
                   </li>
                 )
               )}
               {insurance.healthCheckOrVaccineExpense === 0 ? (
                 <li>
                   Health checking or vaccine expense: Actual pay, not exceed{" "}
-                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                 </li>
               ) : (
                 insurance.healthCheckOrVaccineExpense && (
@@ -343,20 +498,21 @@ const BuyInsurance = (props) => {
                     Health checking or vaccine expense:{" "}
                     {insurance.healthCheckOrVaccineExpense.toLocaleString(
                       "en-US"
-                    )}
+                    )}{" "}
+                    THB
                   </li>
                 )
               )}
               {insurance.dentistExpense === 0 ? (
                 <li>
                   Dentist expense: Actual pay, not exceed{" "}
-                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+                  {insurance.maxMedExpensePerTime.toLocaleString("en-US")} THB
                 </li>
               ) : (
                 insurance.dentistExpense && (
                   <li>
                     Dentist expense:{" "}
-                    {insurance.dentistExpense.toLocaleString("en-US")}
+                    {insurance.dentistExpense.toLocaleString("en-US")} THB
                   </li>
                 )
               )}
@@ -420,7 +576,6 @@ const BuyInsurance = (props) => {
                   required
                 />
               </FloatingLabel>
-
               <FloatingLabel label="Date of Birth" className="mb-3">
                 <Form.Control
                   name="dateOfBirth"
@@ -432,15 +587,18 @@ const BuyInsurance = (props) => {
                   required
                 />
               </FloatingLabel>
-
-              <FloatingLabel label="Telephone Number" className="mb-3">
+              <FloatingLabel
+                label="Telephone Number (0XX-XXX-XXXX)"
+                className="mb-3"
+              >
                 <Form.Control
                   name="tel"
                   type="tel"
-                  pattern="[0]{1}[1-9]{1}[0-9]{8}"
+                  pattern="[0]{1}[1-9]{2}-[0-9]{3}-[0-9]{4}"
                   placeholder="Telephone Number"
                   onChange={handleChange}
                   required
+                  focusable
                 />
               </FloatingLabel>
               <FloatingLabel label="Email" className="mb-3">
@@ -511,7 +669,104 @@ const BuyInsurance = (props) => {
               </FloatingLabel>
             </Container>
             <Container className="buy-container">
-              <p className="info-header">▾ 3. Beneficiary</p>
+              <p className="info-header">
+                ▾ 3. Receipt / Policy Delivery Address
+              </p>
+              <Form.Check
+                inline
+                className="mb-3"
+                name="deliveryAddress"
+                id="deliveryAddress1"
+                label="As above address"
+                type="radio"
+                onChange={handleRadioBtn}
+                required
+              />
+              <Form.Check
+                inline
+                className="mb-3"
+                name="deliveryAddress"
+                id="deliveryAddress2"
+                label="Other address"
+                type="radio"
+                onChange={handleRadioBtn}
+                required
+              />
+              <FloatingLabel
+                label="House Number"
+                className="mb-3 d-none"
+                ref={deliveryAddressHouseNumber}
+              >
+                <Form.Control
+                  name="deliveryAddressHouseNumber"
+                  type="text"
+                  placeholder="House Number"
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                label="Village Number"
+                className="mb-3 d-none"
+                ref={deliveryAddressVillageNumber}
+              >
+                <Form.Control
+                  name="deliveryAddressVillageNumber"
+                  type="text"
+                  placeholder="Village Number"
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                label="Sub District"
+                className="mb-3 d-none"
+                ref={deliveryAddressSubDistrict}
+              >
+                <Form.Control
+                  name="deliveryAddressSubDistrict"
+                  type="text"
+                  placeholder="Sub District"
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                label="District"
+                className="mb-3 d-none"
+                ref={deliveryAddressDistrict}
+              >
+                <Form.Control
+                  name="deliveryAddressDistrict"
+                  type="text"
+                  placeholder="District"
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                label="Province"
+                className="mb-3 d-none"
+                ref={deliveryAddressProvince}
+              >
+                <Form.Control
+                  name="deliveryAddressProvince"
+                  type="text"
+                  placeholder="Province"
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+              <FloatingLabel
+                label="Zip Code"
+                className="mb-3 d-none"
+                ref={deliveryAddressZipCode}
+              >
+                <Form.Control
+                  name="deliveryAddressZipCode"
+                  type="text"
+                  placeholder="Zip Code"
+                  onChange={handleChange}
+                />
+              </FloatingLabel>
+            </Container>
+            <Container className="buy-container">
+              <p className="info-header">▾ 4. Beneficiary</p>
               <Form.Check
                 inline
                 className="mb-3"
@@ -604,7 +859,7 @@ const BuyInsurance = (props) => {
               </FloatingLabel>
             </Container>
             <Container className="buy-container">
-              <p className="info-header">▾ 4. Health-check Question</p>
+              <p className="info-header">▾ 5. Health-check Question</p>
               <ol>
                 <li className="mb-3">
                   Have you ever been denied a request for life insurance, health
@@ -747,7 +1002,7 @@ const BuyInsurance = (props) => {
               </p>
             </Container>
             <Container className="buy-container">
-              <p className="info-header">▾ 5. Income Tax Exemption</p>
+              <p className="info-header">▾ 6. Income Tax Exemption</p>
               <p className="mb-3">
                 Will the insured use the right of income tax exemption under the
                 law on taxation?
@@ -786,14 +1041,44 @@ const BuyInsurance = (props) => {
               />
             </Container>
             <Container className="buy-container">
-              <p className="info-header">▾ 6. Insurance Detail</p>
+              <p className="info-header">▾ 7. Insurance Detail</p>
+              <FloatingLabel label="Effective Date" className="mb-3">
+                <Form.Control
+                  name="startDate"
+                  type="date"
+                  min={`${new Date().getFullYear()}-${
+                    new Date().getMonth() + 1 < 10 ? "0" : ""
+                  }${new Date().getMonth() + 1}-${
+                    new Date().getDate() < 10 ? "0" : ""
+                  }${new Date().getDate()}`}
+                  placeholder="Effective Date"
+                  onChange={handleChange}
+                  defaultValue={data.startDate}
+                  required
+                />
+              </FloatingLabel>
+              <FloatingLabel label="Expired Date" className="mb-3">
+                <Form.Control
+                  name="expiredDate"
+                  type="date"
+                  placeholder="Expired Date"
+                  onChange={handleChange}
+                  defaultValue={data.expiredDate}
+                  ref={expiredDate}
+                  disabled
+                />
+              </FloatingLabel>
               {insuranceDiv}
             </Container>
             <Button className="submit-button" type="submit">
               Submit and Pay
             </Button>
           </Form>
-          <PayInsurance show={show} handleShow={handleShow} />
+          <PayInsurance
+            show={show}
+            handleShow={handleShow}
+            handlePay={handlePay}
+          />
         </>
       )}
     </div>

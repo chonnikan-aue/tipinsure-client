@@ -20,9 +20,11 @@
   color: white;
   padding: 12px 40px;
   border-radius: 50px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
   font-size: 18px;
+  display: block;
+  margin: 0 auto;
 }
 
 .submit-button:hover {
