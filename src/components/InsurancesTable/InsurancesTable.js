@@ -110,14 +110,10 @@ const InsurancesTable = (props) => {
       setNameDiv(name);
       const covidPrice = props.insurances.map((insurance, index) => {
         if (!insurance.premium) {
-          return (
-            <th key={index} className="insurance-price">
-              -
-            </th>
-          );
+          return <th key={index}>-</th>;
         } else {
           return (
-            <th key={index} className="insurance-price">
+            <th key={index}>
               ฿{insurance.premium.toLocaleString("en-US")}
               <button
                 type="button"
@@ -140,7 +136,7 @@ const InsurancesTable = (props) => {
       setCovidPriceDiv(covidPrice);
       const nonCovidPrice = props.insurances.map((insurance, index) => {
         return (
-          <th key={index} className="insurance-price">
+          <th key={index}>
             ฿{insurance.nonCovidPremium.toLocaleString("en-US")}
             <button
               type="button"
@@ -235,7 +231,7 @@ const InsurancesTable = (props) => {
                       {IcuRoomDiv}
                     </tr>
                     <tr>
-                      <td>• general medical expense</td>
+                      <td>• General medical expense</td>
                       {genMedExpDiv}
                     </tr>
                     <tr>
