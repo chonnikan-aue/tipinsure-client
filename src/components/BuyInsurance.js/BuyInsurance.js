@@ -3,6 +3,7 @@ import "./BuyInsurance.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Container, FloatingLabel, Form, Button } from "react-bootstrap";
+import PayInsurance from "../PayInsurance/PayInsurance";
 
 const BuyInsurance = (props) => {
   const beneficiaryRelationshipName = useRef();
@@ -16,6 +17,9 @@ const BuyInsurance = (props) => {
   const [insuranceDiv, setInsuranceDiv] = useState();
   const [insurance, setInsurance] = useState();
   const [data, setData] = useState({});
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(!show);
 
   const handleChange = (e) => {
     setData((prevState) => ({
@@ -26,6 +30,7 @@ const BuyInsurance = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    handleShow();
     axios
       .post(`${process.env.REACT_APP_API}/insured`, data)
       .then((res) => {
@@ -788,6 +793,7 @@ const BuyInsurance = (props) => {
               Submit and Pay
             </Button>
           </Form>
+          <PayInsurance show={show} handleShow={handleShow} />
         </>
       )}
     </div>
