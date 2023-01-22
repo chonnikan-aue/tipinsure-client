@@ -24,7 +24,10 @@ const Header = (props) => {
       <Navbar collapseOnSelect expand="lg" sticky="top">
         <Navbar.Brand>
           <Link to="/">
-            <img src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg" />
+            <img
+              src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg"
+              alt="tipinsure logo"
+            />
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

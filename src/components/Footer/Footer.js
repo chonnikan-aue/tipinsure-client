@@ -11,6 +11,7 @@ const Footer = (props) => {
           <img
             className="logo-footer"
             src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg"
+            alt="tipinsure logo"
           />
         </Col>
         <Col className="call-footer" md="auto">
@@ -63,6 +64,7 @@ const Footer = (props) => {
             <img
               className="download-footer"
               src="https://www.tipinsure.com/new_design_5/assets/img/icon-app.svg"
+              alt="application logo"
             />
             <Col>
               <Row>
@@ -74,6 +76,7 @@ const Footer = (props) => {
                   <img
                     className="download-footer"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/1280px-Download_on_the_App_Store_Badge.svg.png"
+                    alt="download on App Store"
                   />
                 </a>
               </Row>
@@ -86,6 +89,7 @@ const Footer = (props) => {
                   <img
                     className="download-footer"
                     src="https://www.docusign.com/sites/default/files/get-it-on-google-play.png"
+                    alt="download on Google Play"
                   />
                 </a>
               </Row>

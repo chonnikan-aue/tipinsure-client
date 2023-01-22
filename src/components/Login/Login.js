@@ -47,7 +47,10 @@ const Login = (props) => {
     <Modal show={props.showLogin} onHide={props.handleShowLogin}>
       <Modal.Header closeButton>
         <Modal.Title>
-          <img src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg" />
+          <img
+            src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg"
+            alt="tipinsure logo"
+          />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

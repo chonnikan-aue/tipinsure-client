@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./PayInsurance.css";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { Modal, Form, FloatingLabel, Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 const PayInsurance = (props) => {
   return (
@@ -14,13 +12,16 @@ const PayInsurance = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          <img src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg" />
+          <img src="https://www.tipinsure.com/new_design_5/assets/img/logo.svg" 
+              alt="tipinsure logo"
+              />
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <img
           className="qr-code"
           src="https://thaiartisanfoods.com/wp-content/uploads/2019/02/promptpay-QR.jpg"
+          alt="Prompt Pay QR code"
         />
         <Button
           className="submit-button pay-button"

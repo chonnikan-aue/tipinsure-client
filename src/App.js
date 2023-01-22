@@ -8,6 +8,7 @@ import Footer from "./components/Footer/Footer";
 import InsurancesTable from "./components/InsurancesTable/InsurancesTable";
 import BuyInsurance from "./components/BuyInsurance/BuyInsurance";
 import UserInfo from "./components/UserInfo/UserInfo";
+import TipTrick from "./components/TipTrick/TipTrick";
 
 function App() {
   const [userData, setUserData] = useState();
@@ -86,6 +87,7 @@ function App() {
           path="/user"
           element={<UserInfo userData={userData} setLoginData={setLoginData} />}
         />
+        <Route path="/tip" element={<TipTrick />} />
       </Routes>
       <Footer />
     </div>
