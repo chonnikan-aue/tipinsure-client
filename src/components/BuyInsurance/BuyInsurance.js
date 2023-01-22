@@ -291,6 +291,15 @@ const BuyInsurance = (props) => {
     }
   }, [insurance]);
 
+  useEffect(() => {
+    if (props.userData) {
+      setData((prevState) => ({
+        ...prevState,
+        userId: props.userData.id,
+      }));
+    }
+  }, [props.userData]);
+
   return (
     <div className="content">
       {props.buyData && (
