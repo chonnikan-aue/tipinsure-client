@@ -39,7 +39,6 @@ function App() {
     axios
       .get(`${process.env.REACT_APP_API}/insurance/age/${age}`)
       .then((res) => {
-        console.log(res.data);
         setInsurances(res.data);
       })
       .catch((err) => {
@@ -73,7 +72,10 @@ function App() {
           path="/buy"
           element={<BuyInsurance buyData={buyData} userData={userData} />}
         />
-        <Route path="/user" element={<UserInfo userData={userData} />} />
+        <Route
+          path="/user"
+          element={<UserInfo userData={userData} setLoginData={setLoginData} />}
+        />
       </Routes>
       <Footer />
     </div>

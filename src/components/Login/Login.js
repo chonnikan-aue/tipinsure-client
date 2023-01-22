@@ -19,6 +19,7 @@ const Login = (props) => {
     axios
       .get(`${process.env.REACT_APP_API}/auth`, { params: data })
       .then((res) => {
+        console.log(res);
         let token = res.data;
         localStorage.setItem("jwt", token);
         props.setLoginData(data)

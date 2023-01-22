@@ -37,4 +37,5 @@ td {
   --bs-alert-color: #040c37;
   --bs-alert-bg: #c3b5ff;
   --bs-alert-border-color: #a395e4;
+  text-align: center;
 }
