@@ -39,6 +39,7 @@ function App() {
     axios
       .get(`${process.env.REACT_APP_API}/insurance/age/${age}`)
       .then((res) => {
+        console.log(res.data);
         setInsurances(res.data);
       })
       .catch((err) => {

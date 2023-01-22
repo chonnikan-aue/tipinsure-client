@@ -44,14 +44,89 @@ const InsurancesTable = (props) => {
           <td key={index}>
             Actual pay, not exceed{" "}
             {insurance.Insurance.maxMedExpensePerTime.toLocaleString("en-US")}
+            <br />
+            {index !== 0 && (
+              <>
+                {insurance.Insurance.maxMedExpensePerTime -
+                  props.insurances[0].Insurance.maxMedExpensePerTime >=
+                0 ? (
+                  <span className="insurance-up">
+                    (+
+                    {(
+                      insurance.Insurance.maxMedExpensePerTime -
+                      props.insurances[0].Insurance.maxMedExpensePerTime
+                    ).toLocaleString("en-US")}
+                    )
+                  </span>
+                ) : (
+                  <span className="insurance-down">
+                    (
+                    {(
+                      insurance.Insurance.maxMedExpensePerTime -
+                      props.insurances[0].Insurance.maxMedExpensePerTime
+                    ).toLocaleString("en-US")}
+                    )
+                  </span>
+                )}
+              </>
+            )}
           </td>
         );
       } else if (!insurance.Insurance[`${attr}`]) {
-        return <td key={index}>-</td>;
+        return (
+          <td key={index}>
+            -
+            <br />
+            {index !== 0 && (
+              <>
+                {!(
+                  insurance.Insurance[`${attr}`] &&
+                  props.insurances[0].Insurance[`${attr}`]
+                ) ? (
+                  <span className="insurance-up">(+0)</span>
+                ) : (
+                  <span className="insurance-down">
+                    (-
+                    {props.insurances[0].Insurance.maxMedExpensePerTime.toLocaleString(
+                      "en-US"
+                    )}
+                    )
+                  </span>
+                )}
+              </>
+            )}
+          </td>
+        );
       } else {
         return (
           <td key={index}>
             {insurance.Insurance[`${attr}`].toLocaleString("en-US")}
+            <br />
+            {index !== 0 && (
+              <>
+                {insurance.Insurance[`${attr}`] -
+                  props.insurances[0].Insurance[`${attr}`] >=
+                0 ? (
+                  <span className="insurance-up">
+                    (+
+                    {(
+                      insurance.Insurance[`${attr}`] -
+                      props.insurances[0].Insurance[`${attr}`]
+                    ).toLocaleString("en-US")}
+                    )
+                  </span>
+                ) : (
+                  <span className="insurance-down">
+                    (
+                    {(
+                      insurance.Insurance[`${attr}`] -
+                      props.insurances[0].Insurance[`${attr}`]
+                    ).toLocaleString("en-US")}
+                    )
+                  </span>
+                )}
+              </>
+            )}
           </td>
         );
       }
@@ -115,6 +190,29 @@ const InsurancesTable = (props) => {
           return (
             <th key={index}>
               ฿{insurance.premium.toLocaleString("en-US")}
+              <br />
+              {index === 0 && <br />}
+              {index !== 0 && (
+                <>
+                  {insurance.premium - props.insurances[0].premium >= 0 ? (
+                    <span className="insurance-down">
+                      (+
+                      {(
+                        insurance.premium - props.insurances[0].premium
+                      ).toLocaleString("en-US")}
+                      )
+                    </span>
+                  ) : (
+                    <span className="insurance-up">
+                      (
+                      {(
+                        insurance.premium - props.insurances[0].premium
+                      ).toLocaleString("en-US")}
+                      )
+                    </span>
+                  )}
+                </>
+              )}
               <button
                 type="button"
                 className="buy-button"
@@ -138,6 +236,33 @@ const InsurancesTable = (props) => {
         return (
           <th key={index}>
             ฿{insurance.nonCovidPremium.toLocaleString("en-US")}
+            <br />
+            {index === 0 && <br />}
+            {index !== 0 && (
+              <>
+                {insurance.nonCovidPremium -
+                  props.insurances[0].nonCovidPremium >=
+                0 ? (
+                  <span className="insurance-down">
+                    (+
+                    {(
+                      insurance.nonCovidPremium -
+                      props.insurances[0].nonCovidPremium
+                    ).toLocaleString("en-US")}
+                    )
+                  </span>
+                ) : (
+                  <span className="insurance-up">
+                    (
+                    {(
+                      insurance.nonCovidPremium -
+                      props.insurances[0].nonCovidPremium
+                    ).toLocaleString("en-US")}
+                    )
+                  </span>
+                )}
+              </>
+            )}
             <button
               type="button"
               className="buy-button"

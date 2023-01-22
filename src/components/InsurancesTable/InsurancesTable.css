@@ -39,3 +39,10 @@ td {
   --bs-alert-border-color: #a395e4;
   text-align: center;
 }
+
+.insurance-up {
+  color: #4cbc5b;
+}
+.insurance-down {
+  color: #e9483f;
+}
