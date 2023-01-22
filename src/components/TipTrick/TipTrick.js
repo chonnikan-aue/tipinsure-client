@@ -1,6 +1,6 @@
 import React from "react";
 import "./TipTrick.css";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 const TipTrick = (props) => {
   return (
