@@ -21,7 +21,7 @@ const Footer = (props) => {
       <Row className="row-footer">
         <Col className="topic-footer" md="auto">
           Follow us #4
-          <Row>
+          <Row className="group-media">
             <Col md="auto" className="media-footer">
               <a
                 href="https://web.facebook.com/Dhipaya.insurance"
@@ -62,7 +62,7 @@ const Footer = (props) => {
           Download TIP Insure Application
           <Row>
             <img
-              className="download-footer"
+              className="download-footer download-logo"
               src="https://www.tipinsure.com/new_design_5/assets/img/icon-app.svg"
               alt="application logo"
             />

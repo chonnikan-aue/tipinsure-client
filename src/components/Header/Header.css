@@ -52,6 +52,13 @@
 }
 
 .bottom-link {
-  margin-top: 5px;
+  margin-top: 6px;
   color: white;
+}
+
+@media only screen and (max-width: 768px) {
+  .nav-right {
+    flex-direction: row;
+    margin-top: 10px;
+  }
 }

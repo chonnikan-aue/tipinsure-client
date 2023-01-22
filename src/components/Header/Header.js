@@ -45,7 +45,7 @@ const Header = (props) => {
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
-        <Nav>
+        <Nav className="nav-right">
           {props.userData ? (
             <>
               <Nav.Item className="bottom-link">

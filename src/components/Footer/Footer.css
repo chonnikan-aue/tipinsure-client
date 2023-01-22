@@ -59,3 +59,25 @@ a:hover {
   margin-top: 10px;
   margin-bottom: 5px;
 }
+
+@media only screen and (max-width: 768px) {
+  .topic-footer,
+  .address-footer {
+    text-align: center;
+    justify-content: center;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .download-logo {
+    transform: translate(100px);
+  }
+  .media-footer {
+    width: fit-content;
+  }
+  .group-media {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
