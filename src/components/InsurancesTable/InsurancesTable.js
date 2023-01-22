@@ -37,6 +37,19 @@ const InsurancesTable = (props) => {
     }));
   };
 
+  const handleCompare = (e) => {
+    const sortedInsurances = props.insurances.reduce(
+      (insurances, insurance) => {
+        if (insurance.insuranceId == e.target.value) {
+          return [insurance, ...insurances];
+        }
+        return [...insurances, insurance];
+      },
+      []
+    );
+    props.setInsurances(sortedInsurances);
+  };
+
   const getDiv = (attr) => {
     const div = props.insurances.map((insurance, index) => {
       if (insurance.Insurance[`${attr}`] === 0) {
@@ -163,42 +176,119 @@ const InsurancesTable = (props) => {
   }, [age]);
 
   useEffect(() => {
-    if (props.insurances && data) {
-      setInsuranceCount(props.insurances.length + 1);
-      const name = props.insurances.map((insurance, index) => {
-        return (
-          <th
-            key={index}
-            className="insurance-name"
-            style={{
-              backgroundColor: "#C3B5FF",
-              backgroundImage: `url(${insurance.Insurance.logo})`,
-              backgroundPosition: "top right",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "60px 40px",
-            }}
-          >
-            {insurance.Insurance.name}
-          </th>
+    if (props.insurancesOrigin) {
+      if (props.insurancesOrigin.length) {
+        const compareSelect = props.insurancesOrigin.map((insurance, index) => {
+          return (
+            <option key={index} value={insurance.insuranceId}>
+              {insurance.Insurance.name}
+            </option>
+          );
+        });
+        setCompareDiv(
+          <FloatingLabel label="Compare with" className="mb-3">
+            <Form.Select
+              type="text"
+              name="compare"
+              placeholder="Compare with"
+              onChange={handleCompare}
+              defaultValue={props.insurancesOrigin[0].insuranceId}
+            >
+              {compareSelect}
+            </Form.Select>
+          </FloatingLabel>
         );
-      });
-      setNameDiv(name);
-      const covidPrice = props.insurances.map((insurance, index) => {
-        if (!insurance.premium) {
-          return <th key={index}>-</th>;
-        } else {
+      }
+    }
+  }, [props.insurancesOrigin]);
+
+  useEffect(() => {
+    if (props.insurances && data) {
+      if (props.insurances.length) {
+        setInsuranceCount(props.insurances.length + 1);
+        const name = props.insurances.map((insurance, index) => {
+          return (
+            <th
+              key={index}
+              className="insurance-name"
+              style={{
+                backgroundColor: "#C3B5FF",
+                backgroundImage: `url(${insurance.Insurance.logo})`,
+                backgroundPosition: "top right",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "60px 40px",
+              }}
+            >
+              {insurance.Insurance.name}
+            </th>
+          );
+        });
+        setNameDiv(name);
+        const covidPrice = props.insurances.map((insurance, index) => {
+          if (!insurance.premium) {
+            return <th key={index}>-</th>;
+          } else {
+            return (
+              <th key={index}>
+                ฿{insurance.premium.toLocaleString("en-US")}
+                <br />
+                {index === 0 && <br />}
+                {index !== 0 && (
+                  <>
+                    {insurance.premium - props.insurances[0].premium >= 0 ? (
+                      <span className="insurance-down">
+                        (+
+                        {(
+                          insurance.premium - props.insurances[0].premium
+                        ).toLocaleString("en-US")}
+                        )
+                      </span>
+                    ) : (
+                      <span className="insurance-up">
+                        (
+                        {(
+                          insurance.premium - props.insurances[0].premium
+                        ).toLocaleString("en-US")}
+                        )
+                      </span>
+                    )}
+                  </>
+                )}
+                <button
+                  type="button"
+                  className="buy-button"
+                  onClick={() => {
+                    setBuyData(
+                      insurance.insuranceId,
+                      true,
+                      insurance.premium,
+                      data.year
+                    );
+                  }}
+                >
+                  Buy
+                </button>
+              </th>
+            );
+          }
+        });
+        setCovidPriceDiv(covidPrice);
+        const nonCovidPrice = props.insurances.map((insurance, index) => {
           return (
             <th key={index}>
-              ฿{insurance.premium.toLocaleString("en-US")}
+              ฿{insurance.nonCovidPremium.toLocaleString("en-US")}
               <br />
               {index === 0 && <br />}
               {index !== 0 && (
                 <>
-                  {insurance.premium - props.insurances[0].premium >= 0 ? (
+                  {insurance.nonCovidPremium -
+                    props.insurances[0].nonCovidPremium >=
+                  0 ? (
                     <span className="insurance-down">
                       (+
                       {(
-                        insurance.premium - props.insurances[0].premium
+                        insurance.nonCovidPremium -
+                        props.insurances[0].nonCovidPremium
                       ).toLocaleString("en-US")}
                       )
                     </span>
@@ -206,7 +296,8 @@ const InsurancesTable = (props) => {
                     <span className="insurance-up">
                       (
                       {(
-                        insurance.premium - props.insurances[0].premium
+                        insurance.nonCovidPremium -
+                        props.insurances[0].nonCovidPremium
                       ).toLocaleString("en-US")}
                       )
                     </span>
@@ -219,8 +310,8 @@ const InsurancesTable = (props) => {
                 onClick={() => {
                   setBuyData(
                     insurance.insuranceId,
-                    true,
-                    insurance.premium,
+                    false,
+                    insurance.nonCovidPremium,
                     data.year
                   );
                 }}
@@ -229,74 +320,25 @@ const InsurancesTable = (props) => {
               </button>
             </th>
           );
-        }
-      });
-      setCovidPriceDiv(covidPrice);
-      const nonCovidPrice = props.insurances.map((insurance, index) => {
-        return (
-          <th key={index}>
-            ฿{insurance.nonCovidPremium.toLocaleString("en-US")}
-            <br />
-            {index === 0 && <br />}
-            {index !== 0 && (
-              <>
-                {insurance.nonCovidPremium -
-                  props.insurances[0].nonCovidPremium >=
-                0 ? (
-                  <span className="insurance-down">
-                    (+
-                    {(
-                      insurance.nonCovidPremium -
-                      props.insurances[0].nonCovidPremium
-                    ).toLocaleString("en-US")}
-                    )
-                  </span>
-                ) : (
-                  <span className="insurance-up">
-                    (
-                    {(
-                      insurance.nonCovidPremium -
-                      props.insurances[0].nonCovidPremium
-                    ).toLocaleString("en-US")}
-                    )
-                  </span>
-                )}
-              </>
-            )}
-            <button
-              type="button"
-              className="buy-button"
-              onClick={() => {
-                setBuyData(
-                  insurance.insuranceId,
-                  false,
-                  insurance.nonCovidPremium,
-                  data.year
-                );
-              }}
-            >
-              Buy
-            </button>
-          </th>
-        );
-      });
-      setNonCovidPriceDiv(nonCovidPrice);
-      setMaxPerYearDiv(getDiv("maxMedExpensePerYear"));
-      setMaxPerTimeDiv(getDiv("maxMedExpensePerTime"));
-      setNormalRoomDiv(getDiv("normalPatientRoomExpense"));
-      setIcuRoomDiv(getDiv("icuCcuPatientRoomExpense"));
-      setGenMedExpDiv(getDiv("genMedExpense"));
-      setEmerMedExpDiv(getDiv("emergencyMedExpense"));
-      setCrfDiv(getDiv("crfExpense"));
-      setCancerDiv(getDiv("cancerExpense"));
-      setAmbulanceDiv(getDiv("ambulanceExpense"));
-      setNormalIncomeDiv(getDiv("normalPatientIncomeCompensateExpense"));
-      setIcuIncomeDiv(getDiv("icuCcuPatientIncomeCompensateExpense"));
-      setSurgicalDiv(getDiv("surgicalTreatmentExpense"));
-      setOpdDiv(getDiv("opdExpense"));
-      setDeathDiv(getDiv("deathOrPermanentDisabilityExpense"));
-      setHealthCheckDiv(getDiv("healthCheckOrVaccineExpense"));
-      setDentistDiv(getDiv("dentistExpense"));
+        });
+        setNonCovidPriceDiv(nonCovidPrice);
+        setMaxPerYearDiv(getDiv("maxMedExpensePerYear"));
+        setMaxPerTimeDiv(getDiv("maxMedExpensePerTime"));
+        setNormalRoomDiv(getDiv("normalPatientRoomExpense"));
+        setIcuRoomDiv(getDiv("icuCcuPatientRoomExpense"));
+        setGenMedExpDiv(getDiv("genMedExpense"));
+        setEmerMedExpDiv(getDiv("emergencyMedExpense"));
+        setCrfDiv(getDiv("crfExpense"));
+        setCancerDiv(getDiv("cancerExpense"));
+        setAmbulanceDiv(getDiv("ambulanceExpense"));
+        setNormalIncomeDiv(getDiv("normalPatientIncomeCompensateExpense"));
+        setIcuIncomeDiv(getDiv("icuCcuPatientIncomeCompensateExpense"));
+        setSurgicalDiv(getDiv("surgicalTreatmentExpense"));
+        setOpdDiv(getDiv("opdExpense"));
+        setDeathDiv(getDiv("deathOrPermanentDisabilityExpense"));
+        setHealthCheckDiv(getDiv("healthCheckOrVaccineExpense"));
+        setDentistDiv(getDiv("dentistExpense"));
+      }
     }
   }, [props.insurances]);
 
@@ -317,95 +359,98 @@ const InsurancesTable = (props) => {
         {props.insurances ? (
           <>
             {age >= 15 && age <= 70 ? (
-              <div className="insurance-table">
-                <Table striped>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      {nameDiv}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Included COVID Price (baht/year)</td>
-                      {covidPriceDiv}
-                    </tr>
-                    <tr>
-                      <td>Non-COVID Price (baht/year)</td>
-                      {nonCovidPriceDiv}
-                    </tr>
-                    <tr>
-                      <th colSpan={insuranceCount}>
-                        1. In-patient (IPD) medical expenses per year
-                      </th>
-                    </tr>
-                    <tr>
-                      <td>• Maximum expenses per year</td>
-                      {maxPerYearDiv}
-                    </tr>
-                    <tr>
-                      <td>• Maximum expenses per disease or per accident</td>
-                      {maxPerTimeDiv}
-                    </tr>
-                    <tr>
-                      <td>• Normal patient room expense</td>
-                      {normalRoomDiv}
-                    </tr>
-                    <tr>
-                      <td>• ICU/ICC patient room expense</td>
-                      {IcuRoomDiv}
-                    </tr>
-                    <tr>
-                      <td>• General medical expense</td>
-                      {genMedExpDiv}
-                    </tr>
-                    <tr>
-                      <td>• Emergency medical expense</td>
-                      {emerMedExpDiv}
-                    </tr>
-                    <tr>
-                      <td>• Chronic renal failure (CRF) expense</td>
-                      {crfDiv}
-                    </tr>
-                    <tr>
-                      <td>• Cancer expense</td>
-                      {cancerDiv}
-                    </tr>
-                    <tr>
-                      <td>• Ambulance expense</td>
-                      {ambulanceDiv}
-                    </tr>
-                    <tr>
-                      <td>• Normal patient income compensate</td>
-                      {normalIncomeDiv}
-                    </tr>
-                    <tr>
-                      <td>• ICU/ICC patient income compensate</td>
-                      {icuIncomeDiv}
-                    </tr>
-                    <tr>
-                      <td>• Surgical treatment expense</td>
-                      {surgicalDiv}
-                    </tr>
-                    <tr>
-                      <th>2. Out-patient (OPD) medical expense</th>
-                      {opdDiv}
-                    </tr>
-                    <tr>
-                      <th>3. Death or permanent disability compensate</th>
-                      {deathDiv}
-                    </tr>
-                    <tr>
-                      <th>4. Health checking or vaccine expense</th>
-                      {healthCheckDiv}
-                    </tr>
-                    <tr>
-                      <th>5. Dentist expense</th>
-                      {dentistDiv}
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
+              <>
+                {compareDiv}
+                <div className="insurance-table">
+                  <Table striped>
+                    <thead>
+                      <tr>
+                        <th></th>
+                        {nameDiv}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Included COVID Price (baht/year)</td>
+                        {covidPriceDiv}
+                      </tr>
+                      <tr>
+                        <td>Non-COVID Price (baht/year)</td>
+                        {nonCovidPriceDiv}
+                      </tr>
+                      <tr>
+                        <th colSpan={insuranceCount}>
+                          1. In-patient (IPD) medical expenses per year
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>• Maximum expenses per year</td>
+                        {maxPerYearDiv}
+                      </tr>
+                      <tr>
+                        <td>• Maximum expenses per disease or per accident</td>
+                        {maxPerTimeDiv}
+                      </tr>
+                      <tr>
+                        <td>• Normal patient room expense</td>
+                        {normalRoomDiv}
+                      </tr>
+                      <tr>
+                        <td>• ICU/ICC patient room expense</td>
+                        {IcuRoomDiv}
+                      </tr>
+                      <tr>
+                        <td>• General medical expense</td>
+                        {genMedExpDiv}
+                      </tr>
+                      <tr>
+                        <td>• Emergency medical expense</td>
+                        {emerMedExpDiv}
+                      </tr>
+                      <tr>
+                        <td>• Chronic renal failure (CRF) expense</td>
+                        {crfDiv}
+                      </tr>
+                      <tr>
+                        <td>• Cancer expense</td>
+                        {cancerDiv}
+                      </tr>
+                      <tr>
+                        <td>• Ambulance expense</td>
+                        {ambulanceDiv}
+                      </tr>
+                      <tr>
+                        <td>• Normal patient income compensate</td>
+                        {normalIncomeDiv}
+                      </tr>
+                      <tr>
+                        <td>• ICU/ICC patient income compensate</td>
+                        {icuIncomeDiv}
+                      </tr>
+                      <tr>
+                        <td>• Surgical treatment expense</td>
+                        {surgicalDiv}
+                      </tr>
+                      <tr>
+                        <th>2. Out-patient (OPD) medical expense</th>
+                        {opdDiv}
+                      </tr>
+                      <tr>
+                        <th>3. Death or permanent disability compensate</th>
+                        {deathDiv}
+                      </tr>
+                      <tr>
+                        <th>4. Health checking or vaccine expense</th>
+                        {healthCheckDiv}
+                      </tr>
+                      <tr>
+                        <th>5. Dentist expense</th>
+                        {dentistDiv}
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+              </>
             ) : (
               <Alert variant="primary">
                 Sorry, we don't have an insurance for you.

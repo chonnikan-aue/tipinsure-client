@@ -12,6 +12,7 @@ import UserInfo from "./components/UserInfo/UserInfo";
 function App() {
   const [userData, setUserData] = useState();
   const [loginData, setLoginData] = useState();
+  const [insurancesOrigin, setInsurancesOrigin] = useState();
   const [insurances, setInsurances] = useState();
   const [buyData, setBuyData] = useState();
 
@@ -39,7 +40,7 @@ function App() {
     axios
       .get(`${process.env.REACT_APP_API}/insurance/age/${age}`)
       .then((res) => {
-        console.log(res.data);
+        setInsurancesOrigin(res.data);
         setInsurances(res.data);
       })
       .catch((err) => {
@@ -65,7 +66,9 @@ function App() {
             <InsurancesTable
               getInsurances={getInsurances}
               insurances={insurances}
+              setInsurances={setInsurances}
               setBuyData={setBuyData}
+              insurancesOrigin={insurancesOrigin}
             />
           }
         />
