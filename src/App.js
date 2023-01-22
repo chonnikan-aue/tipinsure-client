@@ -6,7 +6,8 @@ import axios from "axios";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import InsurancesTable from "./components/InsurancesTable/InsurancesTable";
-import BuyInsurance from "./components/BuyInsurance.js/BuyInsurance";
+import BuyInsurance from "./components/BuyInsurance/BuyInsurance";
+import UserInfo from "./components/UserInfo/UserInfo";
 
 function App() {
   const [userData, setUserData] = useState();
@@ -68,7 +69,11 @@ function App() {
             />
           }
         />
-        <Route path="/buy" element={<BuyInsurance buyData={buyData} />} />
+        <Route
+          path="/buy"
+          element={<BuyInsurance buyData={buyData} userData={userData} />}
+        />
+        <Route path="/user" element={<UserInfo userData={userData} />} />
       </Routes>
       <Footer />
     </div>
