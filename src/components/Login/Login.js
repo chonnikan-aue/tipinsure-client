@@ -3,8 +3,10 @@ import "./Login.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Modal, Form, FloatingLabel, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
 
   const handleChange = (e) => {
@@ -22,13 +24,14 @@ const Login = (props) => {
         console.log(res);
         let token = res.data;
         localStorage.setItem("jwt", token);
-        props.setLoginData(data)
-        props.handleShowLogin()
+        props.setLoginData(data);
+        props.handleShowLogin();
         Swal.fire({
           icon: "success",
           title: "Succeed!",
           text: "You logged in.",
         });
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);

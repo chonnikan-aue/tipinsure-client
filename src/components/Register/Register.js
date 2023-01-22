@@ -3,8 +3,10 @@ import "../Login/Login.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Modal, Form, FloatingLabel, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Register = (props) => {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
 
   const handleChange = (e) => {
@@ -35,6 +37,7 @@ const Register = (props) => {
             title: "Succeed!",
             text: "You logged in.",
           });
+          navigate("/");
         }
       })
       .catch((err) => {
