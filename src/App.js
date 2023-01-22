@@ -74,7 +74,13 @@ function App() {
         />
         <Route
           path="/buy"
-          element={<BuyInsurance buyData={buyData} userData={userData} />}
+          element={
+            <BuyInsurance
+              buyData={buyData}
+              userData={userData}
+              getUserData={getUserData}
+            />
+          }
         />
         <Route
           path="/user"

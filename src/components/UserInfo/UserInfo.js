@@ -75,17 +75,27 @@ const UserInfo = (props) => {
                     </li>
                     <li>
                       ID Card / Passport Number:{" "}
-                      <span className="insurance-detail">{insurance.Insured.idCardOrPassportNumber}</span>{" "}
+                      <span className="insurance-detail">
+                        {insurance.Insured.idCardOrPassportNumber}
+                      </span>{" "}
                     </li>
                     <li>
                       Date of Birth:{" "}
-                      <span className="insurance-detail">{insurance.Insured.dateOfBirth}</span>{" "}
+                      <span className="insurance-detail">
+                        {insurance.Insured.dateOfBirth}
+                      </span>{" "}
                     </li>
                     <li>
-                      Tel: <span className="insurance-detail">{insurance.Insured.tel}</span>{" "}
+                      Tel:{" "}
+                      <span className="insurance-detail">
+                        {insurance.Insured.tel}
+                      </span>{" "}
                     </li>
                     <li>
-                      Email: <span className="insurance-detail">{insurance.Insured.email}</span>{" "}
+                      Email:{" "}
+                      <span className="insurance-detail">
+                        {insurance.Insured.email}
+                      </span>{" "}
                     </li>
                     <li>
                       Address:{" "}
@@ -131,7 +141,9 @@ const UserInfo = (props) => {
                       accident insurance, being denied the renewal of the
                       insurance contract, being charged an additional premium,
                       or being changed the conditions for such insurance?:{" "}
-                      <span className="insurance-detail">{insurance.Insured.healthQuestion1}</span>{" "}
+                      <span className="insurance-detail">
+                        {insurance.Insured.healthQuestion1}
+                      </span>{" "}
                     </li>
                     <li>
                       Within the past 5 years to the present, have you ever been
@@ -148,30 +160,38 @@ const UserInfo = (props) => {
                       Crohn's disease, Hepatitis B or C, Cirrhosis, alcoholism,
                       paralysis, mental disability, used to use drugs, or other
                       serious illnesses?:{" "}
-                      <span className="insurance-detail">{insurance.Insured.healthQuestion2}</span>{" "}
+                      <span className="insurance-detail">
+                        {insurance.Insured.healthQuestion2}
+                      </span>{" "}
                     </li>
                     <li>
                       Within the past 5 years to the present, have you ever seen
                       a doctor for consultation, advice, or diagnosis as well as
                       receiving any treatment, prescription, or therapy due to
                       injury, illness, or surgery?:{" "}
-                      <span className="insurance-detail">{insurance.Insured.healthQuestion3}</span>{" "}
+                      <span className="insurance-detail">
+                        {insurance.Insured.healthQuestion3}
+                      </span>{" "}
                     </li>
                     {insurance.Insured.taxpayerNumber ? (
                       <>
                         <li>
                           Will the insured use the right of income tax exemption
-                          under the law on taxation?: <span className="insurance-detail">Yes</span>{" "}
+                          under the law on taxation?:{" "}
+                          <span className="insurance-detail">Yes</span>{" "}
                         </li>
                         <li>
                           Taxpayer Number:{" "}
-                          <span className="insurance-detail">{insurance.Insured.taxpayerNumber}</span>{" "}
+                          <span className="insurance-detail">
+                            {insurance.Insured.taxpayerNumber}
+                          </span>{" "}
                         </li>
                       </>
                     ) : (
                       <li>
                         Will the insured use the right of income tax exemption
-                        under the law on taxation?: <span className="insurance-detail">No</span>{" "}
+                        under the law on taxation?:{" "}
+                        <span className="insurance-detail">No</span>{" "}
                       </li>
                     )}
                   </ul>
@@ -180,6 +200,7 @@ const UserInfo = (props) => {
                   insurance={insurance.Insurance}
                   insuredInsurances={insurance}
                 />
+                <hr />
               </li>
             );
           }

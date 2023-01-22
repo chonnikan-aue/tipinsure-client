@@ -72,6 +72,7 @@ const BuyInsurance = (props) => {
 
   const handleInsured = (e) => {
     setInsuredData(props.userData.InsuredInsurances[e.target.value]);
+    e.target.disabled = true;
   };
 
   const handlePay = () => {
@@ -86,6 +87,7 @@ const BuyInsurance = (props) => {
       axios
         .post(`${process.env.REACT_APP_API}/insured`, data)
         .then((res) => {
+          props.getUserData();
           Swal.fire({
             icon: "success",
             title: "Buy Succeesfully!",
@@ -138,6 +140,7 @@ const BuyInsurance = (props) => {
           expiredDate: data.expiredDate,
         })
         .then((res) => {
+          props.getUserData();
           Swal.fire({
             icon: "success",
             title: "Buy Succeesfully!",
@@ -323,6 +326,45 @@ const BuyInsurance = (props) => {
     }
   }, [props.userData]);
 
+  useEffect(() => {
+    if (insuredData) {
+      setData((prevState) => ({
+        ...prevState,
+        title: insuredData.Insured.title,
+        firstName: insuredData.Insured.firstName,
+        lastName: insuredData.Insured.lastName,
+        idCardOrPassportNumber: insuredData.Insured.idCardOrPassportNumber,
+        dateOfBirth: insuredData.Insured.dateOfBirth,
+        tel: insuredData.Insured.tel,
+        email: insuredData.Insured.email,
+        addressHouseNumber: insuredData.Insured.addressHouseNumber,
+        addressVillageNumber: insuredData.Insured.addressVillageNumber,
+        addressSubDistrict: insuredData.Insured.addressSubDistrict,
+        addressDistrict: insuredData.Insured.addressDistrict,
+        addressProvince: insuredData.Insured.addressProvince,
+        addressZipCode: insuredData.Insured.addressZipCode,
+        beneficiaryRelationshipName:
+          insuredData.Insured.beneficiaryRelationshipName,
+        beneficiaryTitle: insuredData.Insured.beneficiaryTitle,
+        beneficiaryFirstName: insuredData.Insured.beneficiaryFirstName,
+        beneficiaryLastName: insuredData.Insured.beneficiaryLastName,
+        healthQuestion1: insuredData.Insured.healthQuestion1,
+        healthQuestion2: insuredData.Insured.healthQuestion2,
+        healthQuestion3: insuredData.Insured.healthQuestion3,
+        taxpayerNumber: insuredData.Insured.taxpayerNumber,
+        deliveryAddressHouseNumber:
+          insuredData.Insured.deliveryAddressHouseNumber,
+        deliveryAddressVillageNumber:
+          insuredData.Insured.deliveryAddressVillageNumber,
+        deliveryAddressSubDistrict:
+          insuredData.Insured.deliveryAddressSubDistrict,
+        deliveryAddressDistrict: insuredData.Insured.deliveryAddressDistrict,
+        deliveryAddressProvince: insuredData.Insured.deliveryAddressProvince,
+        deliveryAddressZipCode: insuredData.Insured.deliveryAddressZipCode,
+      }));
+    }
+  }, [insuredData]);
+
   return (
     <div className="content">
       {props.buyData && (
@@ -356,13 +398,36 @@ const BuyInsurance = (props) => {
                       placeholder="Title"
                       onChange={handleChange}
                       required
-                      defaultValue={insuredData.Insured.title}
                     >
                       <option value="">Select title</option>
-                      <option value="Mr.">Mr.</option>
-                      <option value="Mrs.">Mrs.</option>
-                      <option value="Miss">Miss</option>
-                      <option value="K.">K. (Khun)</option>
+                      {insuredData.Insured.title === "Mr." ? (
+                        <option value="Mr." selected>
+                          Mr.
+                        </option>
+                      ) : (
+                        <option value="Mr.">Mr.</option>
+                      )}
+                      {insuredData.Insured.title === "Mrs." ? (
+                        <option value="Mrs." selected>
+                          Mrs.
+                        </option>
+                      ) : (
+                        <option value="Mrs.">Mrs.</option>
+                      )}
+                      {insuredData.Insured.title === "Miss" ? (
+                        <option value="Miss" selected>
+                          Miss
+                        </option>
+                      ) : (
+                        <option value="Miss">Miss</option>
+                      )}
+                      {insuredData.Insured.title === "K." ? (
+                        <option value="K." selected>
+                          K. (Khun)
+                        </option>
+                      ) : (
+                        <option value="K.">K. (Khun)</option>
+                      )}
                     </Form.Select>
                   </FloatingLabel>
                   <FloatingLabel label="First Name" className="mb-3">
@@ -373,7 +438,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.firstName}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="Last Name" className="mb-3">
                     <Form.Control
@@ -383,12 +448,12 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.lastName}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel
                     label="ID Card or Passport Number"
                     className="mb-3"
-                    >
+                  >
                     <Form.Control
                       name="idCardOrPassportNumber"
                       type="text"
@@ -396,7 +461,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.idCardOrPassportNumber}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="Date of Birth" className="mb-3">
                     <Form.Control
@@ -408,12 +473,12 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.dateOfBirth}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel
                     label="Telephone Number (0XX-XXX-XXXX)"
                     className="mb-3"
-                    >
+                  >
                     <Form.Control
                       name="tel"
                       type="tel"
@@ -422,7 +487,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.tel}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="Email" className="mb-3">
                     <Form.Control
@@ -432,7 +497,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.email}
-                      />
+                    />
                   </FloatingLabel>
                 </Container>
                 <Container className="buy-container">
@@ -445,7 +510,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.addressHouseNumber}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="Village Number" className="mb-3">
                     <Form.Control
@@ -455,7 +520,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.addressVillageNumber}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="Sub District" className="mb-3">
                     <Form.Control
@@ -465,7 +530,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.addressSubDistrict}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="District" className="mb-3">
                     <Form.Control
@@ -475,7 +540,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.addressDistrict}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="Province" className="mb-3">
                     <Form.Control
@@ -485,7 +550,7 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.addressProvince}
-                      />
+                    />
                   </FloatingLabel>
                   <FloatingLabel label="Zip Code" className="mb-3">
                     <Form.Control
@@ -495,200 +560,449 @@ const BuyInsurance = (props) => {
                       onChange={handleChange}
                       required
                       defaultValue={insuredData.Insured.addressZipCode}
-                      />
+                    />
                   </FloatingLabel>
                 </Container>
                 <Container className="buy-container">
                   <p className="info-header">
                     ▾ 3. Receipt / Policy Delivery Address
                   </p>
-                  {}
-                  <Form.Check
-                    inline
-                    className="mb-3"
-                    name="deliveryAddress"
-                    id="deliveryAddress1"
-                    label="As above address"
-                    type="radio"
-                    onChange={handleRadioBtn}
-                    defaultChecked
-                    required
-                  />
-                  <Form.Check
-                    inline
-                    className="mb-3"
-                    name="deliveryAddress"
-                    id="deliveryAddress2"
-                    label="Other address"
-                    type="radio"
-                    onChange={handleRadioBtn}
-                    required
-                  />
-                  <FloatingLabel
-                    label="House Number"
-                    className="mb-3 d-none"
-                    ref={deliveryAddressHouseNumber}
-                  >
-                    <Form.Control
-                      name="deliveryAddressHouseNumber"
-                      type="text"
-                      placeholder="House Number"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="Village Number"
-                    className="mb-3 d-none"
-                    ref={deliveryAddressVillageNumber}
-                  >
-                    <Form.Control
-                      name="deliveryAddressVillageNumber"
-                      type="text"
-                      placeholder="Village Number"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="Sub District"
-                    className="mb-3 d-none"
-                    ref={deliveryAddressSubDistrict}
-                  >
-                    <Form.Control
-                      name="deliveryAddressSubDistrict"
-                      type="text"
-                      placeholder="Sub District"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="District"
-                    className="mb-3 d-none"
-                    ref={deliveryAddressDistrict}
-                  >
-                    <Form.Control
-                      name="deliveryAddressDistrict"
-                      type="text"
-                      placeholder="District"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="Province"
-                    className="mb-3 d-none"
-                    ref={deliveryAddressProvince}
-                  >
-                    <Form.Control
-                      name="deliveryAddressProvince"
-                      type="text"
-                      placeholder="Province"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="Zip Code"
-                    className="mb-3 d-none"
-                    ref={deliveryAddressZipCode}
-                  >
-                    <Form.Control
-                      name="deliveryAddressZipCode"
-                      type="text"
-                      placeholder="Zip Code"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
+                  {insuredData.Insured.addressHouseNumber ===
+                    insuredData.Insured.deliveryAddressHouseNumber &&
+                  insuredData.Insured.addressVillageNumber ===
+                    insuredData.Insured.deliveryAddressVillageNumber &&
+                  insuredData.Insured.addressSubDistrict ===
+                    insuredData.Insured.deliveryAddressSubDistrict &&
+                  insuredData.Insured.addressDistrict ===
+                    insuredData.Insured.deliveryAddressDistrict &&
+                  insuredData.Insured.addressProvince ===
+                    insuredData.Insured.deliveryAddressProvince &&
+                  insuredData.Insured.addressZipCode ===
+                    insuredData.Insured.deliveryAddressZipCode ? (
+                    <>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="deliveryAddress"
+                        id="deliveryAddress1"
+                        label="As above address"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        defaultChecked
+                        required
+                      />
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="deliveryAddress"
+                        id="deliveryAddress2"
+                        label="Other address"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                      />
+                      <FloatingLabel
+                        label="House Number"
+                        className="mb-3 d-none"
+                        ref={deliveryAddressHouseNumber}
+                      >
+                        <Form.Control
+                          name="deliveryAddressHouseNumber"
+                          type="text"
+                          placeholder="House Number"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Village Number"
+                        className="mb-3 d-none"
+                        ref={deliveryAddressVillageNumber}
+                      >
+                        <Form.Control
+                          name="deliveryAddressVillageNumber"
+                          type="text"
+                          placeholder="Village Number"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Sub District"
+                        className="mb-3 d-none"
+                        ref={deliveryAddressSubDistrict}
+                      >
+                        <Form.Control
+                          name="deliveryAddressSubDistrict"
+                          type="text"
+                          placeholder="Sub District"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="District"
+                        className="mb-3 d-none"
+                        ref={deliveryAddressDistrict}
+                      >
+                        <Form.Control
+                          name="deliveryAddressDistrict"
+                          type="text"
+                          placeholder="District"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Province"
+                        className="mb-3 d-none"
+                        ref={deliveryAddressProvince}
+                      >
+                        <Form.Control
+                          name="deliveryAddressProvince"
+                          type="text"
+                          placeholder="Province"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Zip Code"
+                        className="mb-3 d-none"
+                        ref={deliveryAddressZipCode}
+                      >
+                        <Form.Control
+                          name="deliveryAddressZipCode"
+                          type="text"
+                          placeholder="Zip Code"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                    </>
+                  ) : (
+                    <>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="deliveryAddress"
+                        id="deliveryAddress1"
+                        label="As above address"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                      />
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="deliveryAddress"
+                        id="deliveryAddress2"
+                        label="Other address"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        defaultChecked
+                        required
+                      />
+                      <FloatingLabel
+                        label="House Number"
+                        className="mb-3"
+                        ref={deliveryAddressHouseNumber}
+                      >
+                        <Form.Control
+                          name="deliveryAddressHouseNumber"
+                          type="text"
+                          placeholder="House Number"
+                          onChange={handleChange}
+                          required
+                          defaultValue={
+                            insuredData.Insured.deliveryAddressHouseNumber
+                          }
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Village Number"
+                        className="mb-3"
+                        ref={deliveryAddressVillageNumber}
+                      >
+                        <Form.Control
+                          name="deliveryAddressVillageNumber"
+                          type="text"
+                          placeholder="Village Number"
+                          onChange={handleChange}
+                          required
+                          defaultValue={
+                            insuredData.Insured.deliveryAddressVillageNumber
+                          }
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Sub District"
+                        className="mb-3"
+                        ref={deliveryAddressSubDistrict}
+                      >
+                        <Form.Control
+                          name="deliveryAddressSubDistrict"
+                          type="text"
+                          placeholder="Sub District"
+                          onChange={handleChange}
+                          required
+                          defaultValue={
+                            insuredData.Insured.deliveryAddressSubDistrict
+                          }
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="District"
+                        className="mb-3"
+                        ref={deliveryAddressDistrict}
+                      >
+                        <Form.Control
+                          name="deliveryAddressDistrict"
+                          type="text"
+                          placeholder="District"
+                          onChange={handleChange}
+                          required
+                          defaultValue={
+                            insuredData.Insured.deliveryAddressDistrict
+                          }
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Province"
+                        className="mb-3"
+                        ref={deliveryAddressProvince}
+                      >
+                        <Form.Control
+                          name="deliveryAddressProvince"
+                          type="text"
+                          placeholder="Province"
+                          onChange={handleChange}
+                          required
+                          defaultValue={
+                            insuredData.Insured.deliveryAddressProvince
+                          }
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Zip Code"
+                        className="mb-3"
+                        ref={deliveryAddressZipCode}
+                      >
+                        <Form.Control
+                          name="deliveryAddressZipCode"
+                          type="text"
+                          placeholder="Zip Code"
+                          onChange={handleChange}
+                          required
+                          defaultValue={
+                            insuredData.Insured.deliveryAddressZipCode
+                          }
+                        />
+                      </FloatingLabel>
+                    </>
+                  )}
                 </Container>
                 <Container className="buy-container">
                   <p className="info-header">▾ 4. Beneficiary</p>
-                  <Form.Check
-                    inline
-                    className="mb-3"
-                    name="beneficiary"
-                    id="beneficiary1"
-                    label="Statutory Heir"
-                    type="radio"
-                    onChange={handleRadioBtn}
-                    required
-                  />
-                  <Form.Check
-                    inline
-                    className="mb-3"
-                    name="beneficiary"
-                    id="beneficiary2"
-                    label="Others (please specify)"
-                    type="radio"
-                    onChange={handleRadioBtn}
-                    required
-                  />
-                  <FloatingLabel
-                    label="Relationship Name"
-                    className="mb-3 d-none"
-                    ref={beneficiaryRelationshipName}
-                  >
-                    <Form.Select
-                      name="beneficiaryRelationshipName"
-                      type="text"
-                      placeholder="Relationship Name"
-                      onChange={handleChange}
-                    >
-                      <option value="">Select relationship name</option>
-                      <option value="Wife">Wife</option>
-                      <option value="Husband">Husband</option>
-                      <option value="Father">Father</option>
-                      <option value="Mother">Mother</option>
-                      <option value="Older brother/sister">
-                        Older brother/sister
-                      </option>
-                      <option value="Younger brother/sister">
-                        Younger brother/sister
-                      </option>
-                      <option value="Daughter">Daughter</option>
-                      <option value="Son">Son</option>
-                      <option value="Partner">Partner</option>
-                      <option value="Others">Others</option>
-                    </Form.Select>
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="Beneficiary Title"
-                    className="mb-3 d-none"
-                    ref={beneficiaryTitle}
-                  >
-                    <Form.Select
-                      name="beneficiaryTitle"
-                      type="text"
-                      placeholder="Beneficiary Title"
-                      onChange={handleChange}
-                    >
-                      <option value="">Select beneficiary title</option>
-                      <option value="Mr.">Mr.</option>
-                      <option value="Mrs.">Mrs.</option>
-                      <option value="Miss">Miss</option>
-                      <option value="K.">K. (Khun)</option>
-                    </Form.Select>
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="Beneficiary First Name"
-                    className="mb-3 d-none"
-                    ref={beneficiaryFirstName}
-                  >
-                    <Form.Control
-                      name="beneficiaryFirstName"
-                      type="text"
-                      placeholder="Beneficiary First Name"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel
-                    label="Beneficiary Last Name"
-                    className="mb-3 d-none"
-                    ref={beneficiaryLastName}
-                  >
-                    <Form.Control
-                      name="beneficiaryLastName"
-                      type="text"
-                      placeholder="Beneficiary Last Name"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
+                  {!(
+                    insuredData.Insured.beneficiaryTitle &&
+                    insuredData.Insured.beneficiaryFirstName &&
+                    insuredData.Insured.beneficiaryLastName
+                  ) ? (
+                    <>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="beneficiary"
+                        id="beneficiary1"
+                        label="Statutory Heir"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                        defaultChecked
+                      />
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="beneficiary"
+                        id="beneficiary2"
+                        label="Others (please specify)"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                      />
+                      <FloatingLabel
+                        label="Relationship Name"
+                        className="mb-3 d-none"
+                        ref={beneficiaryRelationshipName}
+                      >
+                        <Form.Select
+                          name="beneficiaryRelationshipName"
+                          type="text"
+                          placeholder="Relationship Name"
+                          onChange={handleChange}
+                        >
+                          <option value="">Select relationship name</option>
+                          <option value="Wife">Wife</option>
+                          <option value="Husband">Husband</option>
+                          <option value="Father">Father</option>
+                          <option value="Mother">Mother</option>
+                          <option value="Older brother/sister">
+                            Older brother/sister
+                          </option>
+                          <option value="Younger brother/sister">
+                            Younger brother/sister
+                          </option>
+                          <option value="Daughter">Daughter</option>
+                          <option value="Son">Son</option>
+                          <option value="Partner">Partner</option>
+                          <option value="Others">Others</option>
+                        </Form.Select>
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Beneficiary Title"
+                        className="mb-3 d-none"
+                        ref={beneficiaryTitle}
+                      >
+                        <Form.Select
+                          name="beneficiaryTitle"
+                          type="text"
+                          placeholder="Beneficiary Title"
+                          onChange={handleChange}
+                        >
+                          <option value="">Select beneficiary title</option>
+                          <option value="Mr.">Mr.</option>
+                          <option value="Mrs.">Mrs.</option>
+                          <option value="Miss">Miss</option>
+                          <option value="K.">K. (Khun)</option>
+                        </Form.Select>
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Beneficiary First Name"
+                        className="mb-3 d-none"
+                        ref={beneficiaryFirstName}
+                      >
+                        <Form.Control
+                          name="beneficiaryFirstName"
+                          type="text"
+                          placeholder="Beneficiary First Name"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Beneficiary Last Name"
+                        className="mb-3 d-none"
+                        ref={beneficiaryLastName}
+                      >
+                        <Form.Control
+                          name="beneficiaryLastName"
+                          type="text"
+                          placeholder="Beneficiary Last Name"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                    </>
+                  ) : (
+                    <>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="beneficiary"
+                        id="beneficiary1"
+                        label="Statutory Heir"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                      />
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="beneficiary"
+                        id="beneficiary2"
+                        label="Others (please specify)"
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                        defaultChecked
+                      />
+                      <FloatingLabel
+                        label="Relationship Name"
+                        className="mb-3"
+                        ref={beneficiaryRelationshipName}
+                      >
+                        <Form.Select
+                          name="beneficiaryRelationshipName"
+                          type="text"
+                          placeholder="Relationship Name"
+                          onChange={handleChange}
+                          defaultValue={
+                            insuredData.Insured.beneficiaryRelationshipName
+                          }
+                          required
+                        >
+                          <option value="">Select relationship name</option>
+                          <option value="Wife">Wife</option>
+                          <option value="Husband">Husband</option>
+                          <option value="Father">Father</option>
+                          <option value="Mother">Mother</option>
+                          <option value="Older brother/sister">
+                            Older brother/sister
+                          </option>
+                          <option value="Younger brother/sister">
+                            Younger brother/sister
+                          </option>
+                          <option value="Daughter">Daughter</option>
+                          <option value="Son">Son</option>
+                          <option value="Partner">Partner</option>
+                          <option value="Others">Others</option>
+                        </Form.Select>
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Beneficiary Title"
+                        className="mb-3"
+                        ref={beneficiaryTitle}
+                      >
+                        <Form.Select
+                          name="beneficiaryTitle"
+                          type="text"
+                          placeholder="Beneficiary Title"
+                          onChange={handleChange}
+                          defaultValue={insuredData.Insured.beneficiaryTitle}
+                          required
+                        >
+                          <option value="">Select beneficiary title</option>
+                          <option value="Mr.">Mr.</option>
+                          <option value="Mrs.">Mrs.</option>
+                          <option value="Miss">Miss</option>
+                          <option value="K.">K. (Khun)</option>
+                        </Form.Select>
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Beneficiary First Name"
+                        className="mb-3"
+                        ref={beneficiaryFirstName}
+                      >
+                        <Form.Control
+                          name="beneficiaryFirstName"
+                          type="text"
+                          placeholder="Beneficiary First Name"
+                          onChange={handleChange}
+                          required
+                          defaultValue={
+                            insuredData.Insured.beneficiaryFirstName
+                          }
+                        />
+                      </FloatingLabel>
+                      <FloatingLabel
+                        label="Beneficiary Last Name"
+                        className="mb-3"
+                        ref={beneficiaryLastName}
+                      >
+                        <Form.Control
+                          name="beneficiaryLastName"
+                          type="text"
+                          placeholder="Beneficiary Last Name"
+                          onChange={handleChange}
+                          required
+                          defaultValue={insuredData.Insured.beneficiaryLastName}
+                        />
+                      </FloatingLabel>
+                    </>
+                  )}
                 </Container>
                 <Container className="buy-container">
                   <p className="info-header">▾ 5. Health-check Question</p>
@@ -702,38 +1016,81 @@ const BuyInsurance = (props) => {
                       yes, please provide insurance company's name and sum
                       insured)
                     </li>
-                    <Form.Check
-                      inline
-                      className="mb-3"
-                      name="healthQuestion1"
-                      id="healthQuestion1_1"
-                      label="No"
-                      type="radio"
-                      onChange={handleRadioBtn}
-                      required
-                    />
-                    <Form.Check
-                      inline
-                      className="mb-3"
-                      name="healthQuestion1"
-                      id="healthQuestion1_2"
-                      label="Yes (please specify)"
-                      type="radio"
-                      onChange={handleRadioBtn}
-                      required
-                    />
-                    <FloatingLabel
-                      label="Please specify"
-                      className="mb-3 d-none"
-                      ref={healthQuestion1}
-                    >
-                      <Form.Control
-                        name="healthQuestion1"
-                        type="text"
-                        placeholder="Please specify"
-                        onChange={handleChange}
-                      />
-                    </FloatingLabel>
+                    {insuredData.Insured.healthQuestion1 === "No" ? (
+                      <>
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion1"
+                          id="healthQuestion1_1"
+                          label="No"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          defaultChecked
+                          required
+                        />
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion1"
+                          id="healthQuestion1_2"
+                          label="Yes (please specify)"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                        />
+                        <FloatingLabel
+                          label="Please specify"
+                          className="mb-3 d-none"
+                          ref={healthQuestion1}
+                        >
+                          <Form.Control
+                            name="healthQuestion1"
+                            type="text"
+                            placeholder="Please specify"
+                            onChange={handleChange}
+                          />
+                        </FloatingLabel>
+                      </>
+                    ) : (
+                      <>
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion1"
+                          id="healthQuestion1_1"
+                          label="No"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                        />
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion1"
+                          id="healthQuestion1_2"
+                          label="Yes (please specify)"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          defaultChecked
+                          required
+                        />
+                        <FloatingLabel
+                          label="Please specify"
+                          className="mb-3"
+                          ref={healthQuestion1}
+                        >
+                          <Form.Control
+                            name="healthQuestion1"
+                            type="text"
+                            placeholder="Please specify"
+                            onChange={handleChange}
+                            required
+                            defaultValue={insuredData.Insured.healthQuestion1}
+                          />
+                        </FloatingLabel>
+                      </>
+                    )}
                     <li className="mb-3">
                       Within the past 5 years to the present, have you ever been
                       infected, have symptoms, or have been treated or under
@@ -750,38 +1107,81 @@ const BuyInsurance = (props) => {
                       paralysis, mental disability, used to use drugs, or other
                       serious illnesses?
                     </li>
-                    <Form.Check
-                      inline
-                      className="mb-3"
-                      name="healthQuestion2"
-                      id="healthQuestion2_1"
-                      label="No"
-                      type="radio"
-                      onChange={handleRadioBtn}
-                      required
-                    />
-                    <Form.Check
-                      inline
-                      className="mb-3"
-                      name="healthQuestion2"
-                      id="healthQuestion2_2"
-                      label="Yes (please specify)"
-                      type="radio"
-                      onChange={handleRadioBtn}
-                      required
-                    />
-                    <FloatingLabel
-                      label="Please specify"
-                      className="mb-3 d-none"
-                      ref={healthQuestion2}
-                    >
-                      <Form.Control
-                        name="healthQuestion2"
-                        type="text"
-                        placeholder="Please specify"
-                        onChange={handleChange}
-                      />
-                    </FloatingLabel>
+                    {insuredData.Insured.healthQuestion2 === "No" ? (
+                      <>
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion2"
+                          id="healthQuestion2_1"
+                          label="No"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                          defaultChecked
+                        />
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion2"
+                          id="healthQuestion2_2"
+                          label="Yes (please specify)"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                        />
+                        <FloatingLabel
+                          label="Please specify"
+                          className="mb-3 d-none"
+                          ref={healthQuestion2}
+                        >
+                          <Form.Control
+                            name="healthQuestion2"
+                            type="text"
+                            placeholder="Please specify"
+                            onChange={handleChange}
+                          />
+                        </FloatingLabel>
+                      </>
+                    ) : (
+                      <>
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion2"
+                          id="healthQuestion2_1"
+                          label="No"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                        />
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion2"
+                          id="healthQuestion2_2"
+                          label="Yes (please specify)"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                          defaultChecked
+                        />
+                        <FloatingLabel
+                          label="Please specify"
+                          className="mb-3"
+                          ref={healthQuestion2}
+                        >
+                          <Form.Control
+                            name="healthQuestion2"
+                            type="text"
+                            placeholder="Please specify"
+                            onChange={handleChange}
+                            required
+                            defaultValue={insuredData.Insured.healthQuestion2}
+                          />
+                        </FloatingLabel>
+                      </>
+                    )}
                     <li className="mb-3">
                       Within the past 5 years to the present, have you ever seen
                       a doctor for consultation, advice, or diagnosis as well as
@@ -790,38 +1190,82 @@ const BuyInsurance = (props) => {
                       details of your doctor's diagnosis, signs, symptoms
                       treatment, or advice received and the date)
                     </li>
-                    <Form.Check
-                      inline
-                      className="mb-3"
-                      name="healthQuestion3"
-                      id="healthQuestion3_1"
-                      label="No"
-                      type="radio"
-                      onChange={handleRadioBtn}
-                      required
-                    />
-                    <Form.Check
-                      inline
-                      className="mb-3"
-                      name="healthQuestion3"
-                      id="healthQuestion3_2"
-                      label="Yes (please specify)"
-                      type="radio"
-                      onChange={handleRadioBtn}
-                      required
-                    />
-                    <FloatingLabel
-                      label="Please specify"
-                      className="mb-3 d-none"
-                      ref={healthQuestion3}
-                    >
-                      <Form.Control
-                        name="healthQuestion3"
-                        type="text"
-                        placeholder="Please specify"
-                        onChange={handleChange}
-                      />
-                    </FloatingLabel>
+                    {insuredData.Insured.healthQuestion3 === "No" ? (
+                      <>
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion3"
+                          id="healthQuestion3_1"
+                          label="No"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                          defaultChecked
+                        />
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion3"
+                          id="healthQuestion3_2"
+                          label="Yes (please specify)"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                        />
+                        <FloatingLabel
+                          label="Please specify"
+                          className="mb-3 d-none"
+                          ref={healthQuestion3}
+                        >
+                          <Form.Control
+                            name="healthQuestion3"
+                            type="text"
+                            placeholder="Please specify"
+                            onChange={handleChange}
+                          />
+                        </FloatingLabel>
+                      </>
+                    ) : (
+                      <>
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion3"
+                          id="healthQuestion3_1"
+                          label="No"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                          defaultChecked
+                        />
+                        <Form.Check
+                          inline
+                          className="mb-3"
+                          name="healthQuestion3"
+                          id="healthQuestion3_2"
+                          label="Yes (please specify)"
+                          type="radio"
+                          onChange={handleRadioBtn}
+                          required
+                          defaultChecked
+                        />
+                        <FloatingLabel
+                          label="Please specify"
+                          className="mb-3"
+                          ref={healthQuestion3}
+                        >
+                          <Form.Control
+                            name="healthQuestion3"
+                            type="text"
+                            placeholder="Please specify"
+                            onChange={handleChange}
+                            required
+                            defaultValue={insuredData.Insured.healthQuestion3}
+                          />
+                        </FloatingLabel>
+                      </>
+                    )}
                   </ol>
                   <p className="buy-warning">
                     <strong>
@@ -841,38 +1285,81 @@ const BuyInsurance = (props) => {
                     Will the insured use the right of income tax exemption under
                     the law on taxation?
                   </p>
-                  <Form.Check
-                    inline
-                    className="mb-3"
-                    name="taxpayerNumber"
-                    id="taxpayerNumber1"
-                    label="Yes, the insured have the intention and consent to the non-life insurance company to submit and disclose insurance premium information to the Revenue Department in accordance with the rules and procedures specified by the Revenue Department. If the insured is a Non-Thai Residence, who is liable to pay tax to the law on taxation. Please enter your taxpayer number."
-                    type="radio"
-                    onChange={handleRadioBtn}
-                    required
-                  />
-                  <FloatingLabel
-                    label="Taxpayer Number"
-                    className="mb-3 d-none"
-                    ref={taxpayerNumber}
-                  >
-                    <Form.Control
-                      name="taxpayerNumber"
-                      type="text"
-                      placeholder="Taxpayer Number"
-                      onChange={handleChange}
-                    />
-                  </FloatingLabel>
-                  <Form.Check
-                    inline
-                    className="mb-3"
-                    name="taxpayerNumber"
-                    id="taxpayerNumber2"
-                    label="No, The consent to the non-life insurance company to send and disclose the above information will be effective until the insured notifies the company to cancel or change."
-                    type="radio"
-                    onChange={handleRadioBtn}
-                    required
-                  />
+                  {insuredData.Insured.taxpayerNumber ? (
+                    <>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="taxpayerNumber"
+                        id="taxpayerNumber1"
+                        label="Yes, the insured have the intention and consent to the non-life insurance company to submit and disclose insurance premium information to the Revenue Department in accordance with the rules and procedures specified by the Revenue Department. If the insured is a Non-Thai Residence, who is liable to pay tax to the law on taxation. Please enter your taxpayer number."
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                        defaultChecked
+                      />
+                      <FloatingLabel
+                        label="Taxpayer Number"
+                        className="mb-3"
+                        ref={taxpayerNumber}
+                      >
+                        <Form.Control
+                          name="taxpayerNumber"
+                          type="text"
+                          placeholder="Taxpayer Number"
+                          onChange={handleChange}
+                          required
+                          defaultValue={insuredData.Insured.taxpayerNumber}
+                        />
+                      </FloatingLabel>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="taxpayerNumber"
+                        id="taxpayerNumber2"
+                        label="No, The consent to the non-life insurance company to send and disclose the above information will be effective until the insured notifies the company to cancel or change."
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="taxpayerNumber"
+                        id="taxpayerNumber1"
+                        label="Yes, the insured have the intention and consent to the non-life insurance company to submit and disclose insurance premium information to the Revenue Department in accordance with the rules and procedures specified by the Revenue Department. If the insured is a Non-Thai Residence, who is liable to pay tax to the law on taxation. Please enter your taxpayer number."
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                      />
+                      <FloatingLabel
+                        label="Taxpayer Number"
+                        className="mb-3 d-none"
+                        ref={taxpayerNumber}
+                      >
+                        <Form.Control
+                          name="taxpayerNumber"
+                          type="text"
+                          placeholder="Taxpayer Number"
+                          onChange={handleChange}
+                        />
+                      </FloatingLabel>
+                      <Form.Check
+                        inline
+                        className="mb-3"
+                        name="taxpayerNumber"
+                        id="taxpayerNumber2"
+                        label="No, The consent to the non-life insurance company to send and disclose the above information will be effective until the insured notifies the company to cancel or change."
+                        type="radio"
+                        onChange={handleRadioBtn}
+                        required
+                        defaultChecked
+                      />
+                    </>
+                  )}
                 </Container>
               </>
             ) : (
