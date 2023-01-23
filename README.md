@@ -109,21 +109,25 @@ This web application works well in lastest version of Chrome and be responsive i
 
 ![image](https://user-images.githubusercontent.com/116629287/213957804-ab0cdf81-56d9-437a-bc3e-a878bd2ce737.png)
 
-**3. Register Modal:** 
+**3. Buy Insurance Page:** 
+
+![image](https://user-images.githubusercontent.com/116629287/213974828-9c1d8136-08ba-4575-beb6-1e1708cdc4cd.png)
+
+**4. Register Modal:** 
 
 ![image](https://user-images.githubusercontent.com/116629287/213958240-3a41172b-a974-4aa0-a3a1-eb029baaf43f.png)
 
-**4. Login Modal:** 
+**5. Login Modal:** 
 
 ![image](https://user-images.githubusercontent.com/116629287/213958216-0e9a558a-a956-46dd-8d32-356a6c792635.png)
 
-**5. User Page:** 
+**6. User Page:** 
 
 - when user already logged in and click their username on header
 
 ![image](https://user-images.githubusercontent.com/116629287/213958310-c4a01810-ba8b-4f15-9b2c-8b9b1db1d782.png)
 
-**5. TIP & Trick Page:**
+**7. TIP & Trick Page:**
 
 ![image](https://user-images.githubusercontent.com/116629287/213958473-39e3b29d-2a11-4445-89d1-f595d518599d.png)
 
