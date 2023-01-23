@@ -11,7 +11,7 @@
 
 - **For fontend:** React.js
 
-- **For backend:** Express ([Tipinsure](https://github.com/chonnikan-aue/tipinsure))
+- **For backend:** Express, Postgresql ([Tipinsure](https://github.com/chonnikan-aue/tipinsure))
 
 - **For connect backend:** Axios
 
