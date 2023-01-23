@@ -1,70 +1,135 @@
-# Getting Started with Create React App
+# Tip Insure (Fontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> ### Insurance website that helps you compare and buy health-care insurance from Dhipaya Insurance Public Company Limited
 
-## Available Scripts
+**Take a look here:** https://chonnikan-aue-tipinsure.netlify.app/
 
-In the project directory, you can run:
 
-### `npm start`
+## Technologies used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **For designing wire frames:** [wireframe.cc](https://wireframe.cc/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **For fontend:** React.js
 
-### `npm test`
+- **For backend:** [Tipinsure](https://github.com/chonnikan-aue/tipinsure)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **For connect backend:** Axios
 
-### `npm run build`
+- **For deployment:** Netlify  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **For additional libraries:** [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction), [React Icons](https://react-icons.github.io/react-icons/),  [SweetAlert2](https://sweetalert2.github.io/recipe-gallery/sweetalert2-react.html)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Installation instructions
 
-### `npm run eject`
+This web application works well in lastest version of Chrome and be responsive in most mobile devices
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Planning
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+> ### User Stories
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- As a user, I want insurance company compare each health-care plan for me about the benefits and price. so, I can choose easily.
 
-## Learn More
+- As a user, I want to know how much I have to pay more to have more benefits of each plan and what benefits I get more.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- As a user, I want to know how much I can reduce the cost if I choose not included COVID plan.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- As a user, I want the app can save the insured's data. So, I will easily buy another insurance next time.
 
-### Code Splitting
+- As a user, I want to see the information of the purchased insurance
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- As a user, I want to know more about insurance tip & trick e.g., when should I buy insurance? How different?
 
-### Analyzing the Bundle Size
+- As a user, I want to buy insurance without login first
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- As a user, if I want to signup, I can add previous purchased insurance to the account
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> ### MVP Goals
 
-### Advanced Configuration
+- [x] Compare each health-care plan about the benefits and price and tell the differences of each plan
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- [x] Have insurance tip & trick page
 
-### Deployment
+- [x] Can buy insurance without login
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [x] Can login and save the insured's data for next purchase
 
-### `npm run build` fails to minify
+- [x] If login, user can see the information of the purchased insurance
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+> ### Stretch Goals
+
+- [ ] Can add previous purchased insurance by policy number to login user
+
+- [ ] Change from Express to django
+
+
+## Design Process
+
+> ### Wire Frames
+
+**1. First Page:**
+
+![image](https://user-images.githubusercontent.com/116629287/213958623-1e020fd5-3a9f-4f6e-b2d5-9660fc35b767.png)
+
+**2. Register Page:** 
+
+![image](https://user-images.githubusercontent.com/116629287/213958836-6541a50b-c319-428c-8591-83d7520dfb6b.png)
+
+**3. Login Page:** 
+
+![image](https://user-images.githubusercontent.com/116629287/213958782-8ccc9263-7edd-43cb-b20b-8224a07ce3d9.png)
+
+**4. User Page:** 
+
+- update insured's information
+
+![image](https://user-images.githubusercontent.com/116629287/213958937-0d806a70-a4af-40f1-b50a-17548a5e810c.png)
+
+- purchased insurances details
+
+![image](https://user-images.githubusercontent.com/116629287/213958980-817bb7db-971c-467a-b61d-200a54f2facf.png)
+
+**5. TIP & Trick Page:**
+
+![image](https://user-images.githubusercontent.com/116629287/213958716-96333401-0d9d-484e-8bd9-567f70b343ca.png)
+
+
+## Screenshot of the game
+
+**1. First Page:**
+
+![image](https://user-images.githubusercontent.com/116629287/213957637-c0a106b4-0cbd-4ff7-acc2-1bbaea7bbb3d.png)
+
+**2. Compare health-care insurance page:** 
+
+- when user enter Date of Birth, and company have suitable insurances
+
+![image](https://user-images.githubusercontent.com/116629287/213957804-ab0cdf81-56d9-437a-bc3e-a878bd2ce737.png)
+
+**3. Register Modal:** 
+
+![image](https://user-images.githubusercontent.com/116629287/213958240-3a41172b-a974-4aa0-a3a1-eb029baaf43f.png)
+
+**4. Login Modal:** 
+
+![image](https://user-images.githubusercontent.com/116629287/213958216-0e9a558a-a956-46dd-8d32-356a6c792635.png)
+
+**5. User Page:** 
+
+- when user already logged in and click their username on header
+
+![image](https://user-images.githubusercontent.com/116629287/213958310-c4a01810-ba8b-4f15-9b2c-8b9b1db1d782.png)
+
+**5. TIP & Trick Page:**
+
+![image](https://user-images.githubusercontent.com/116629287/213958473-39e3b29d-2a11-4445-89d1-f595d518599d.png)
+
+> ### Try by yourself? [Here you go!](https://chonnikan-aue-tipinsure.netlify.app/)
+
+
+## Room for Improvement
+
+[Stretch Goals section](#stretch-goals)
