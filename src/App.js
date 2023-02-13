@@ -29,7 +29,6 @@ function App() {
         )
         .then((res) => {
           setUserData(res.data);
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);

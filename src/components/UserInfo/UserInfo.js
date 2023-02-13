@@ -14,7 +14,6 @@ const UserInfo = (props) => {
 
   const handleChange = (e) => {
     if (e.target.name === "referalCode" && e.target.value === "") {
-      console.log("ddd");
       setData((prevState) => ({
         ...prevState,
         referalCode: null,
@@ -35,7 +34,6 @@ const UserInfo = (props) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.name === "SequelizeUniqueConstraintError") {
           Swal.fire({
             icon: "error",
